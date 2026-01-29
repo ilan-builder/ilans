@@ -67,7 +67,7 @@ export function TimerDisplay({ game }: TimerDisplayProps) {
   };
 
   return (
-    <div className={`mobile-screen flex flex-col p-4 pt-16 transition-colors duration-300 ${
+    <div className={`mobile-screen flex flex-col p-4 pt-safe-button transition-colors duration-300 ${
       isVeryLowTime ? "bg-red-50" : isLowTime ? "bg-amber-50" : "bg-white"
     }`}>
       {/* Current team */}

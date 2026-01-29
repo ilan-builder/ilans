@@ -32,7 +32,7 @@ export function StealAlert({ game }: StealAlertProps) {
   }, []);
 
   return (
-    <div className="mobile-screen flex flex-col p-4 pt-16 bg-amber-50">
+    <div className="mobile-screen flex flex-col p-4 pt-safe-button bg-amber-50">
       {/* Header */}
       <div className="text-center py-4">
         <div className="text-5xl font-bold text-amber-600 animate-wiggle">

@@ -136,6 +136,11 @@ html[dir="rtl"] {
   padding-top: env(safe-area-inset-top);
 }
 
+/* Content area below the end game button */
+.pt-safe-button {
+  padding-top: max(4rem, calc(var(--safe-top) + 3.5rem));
+}
+
 .safe-area-bottom {
   padding-bottom: env(safe-area-inset-bottom);
 }

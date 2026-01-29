@@ -69,7 +69,7 @@ export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructi
   };
 
   return (
-    <div className="mobile-screen flex flex-col p-4 pt-16 bg-white">
+    <div className="mobile-screen flex flex-col p-4 pt-safe-button bg-white">
       {/* Room Code Header */}
       <div className="doodle-card p-4 mb-4 text-center">
         <p className="text-gray-500 text-xs mb-1">קוד החדר</p>

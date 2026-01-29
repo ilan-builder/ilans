@@ -72,7 +72,7 @@ export function PlayTurn({ game }: PlayTurnProps) {
   const isLowTime = timeLeft !== null && timeLeft <= 10;
 
   return (
-    <div className="mobile-screen flex flex-col p-4 pt-16 bg-white">
+    <div className="mobile-screen flex flex-col p-4 pt-safe-button bg-white">
       {/* Header */}
       <div className="doodle-card p-3 mb-3 flex justify-between items-center">
         <div>

@@ -11,7 +11,7 @@ export function GameOver({ teams, onPlayAgain, onNewGame }: GameOverProps) {
   const winner = sortedTeams[0];
 
   return (
-    <div className="mobile-screen flex flex-col items-center justify-center p-6 pt-16 bg-amber-50">
+    <div className="mobile-screen flex flex-col items-center justify-center p-6 pt-safe-button bg-amber-50">
       <div className="doodle-card p-6 max-w-sm w-full text-center bg-white">
         <div className="text-6xl mb-4">🏆</div>
         <h1 className="text-3xl font-bold text-gray-800 mb-2">המשחק נגמר!</h1>
