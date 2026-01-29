@@ -136,6 +136,27 @@ test.describe('Ilans Game', () => {
     expect(hasHorizontalScrollAfter).toBe(false);
   });
 
+  test('should have stop game button on setup screen', async ({ page }) => {
+    await page.goto('/');
+
+    // Create a room
+    await page.getByText('מכשיר מסביר').click();
+    await page.getByText('צור משחק חדש').click();
+
+    // Wait for setup screen
+    await expect(page.getByText('קבוצות')).toBeVisible({ timeout: 10000 });
+
+    // Should have stop game button
+    await expect(page.getByText('עצור משחק')).toBeVisible();
+
+    // Click stop game
+    await page.getByText('עצור משחק').click();
+
+    // Should return to role selection
+    await expect(page.getByText('מכשיר מסביר')).toBeVisible();
+    await expect(page.getByText('מכשיר טיימר')).toBeVisible();
+  });
+
   test('should show instructions modal', async ({ page }) => {
     await page.goto('/');
 
