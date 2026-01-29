@@ -50,10 +50,8 @@ export function TimerDisplay({ game }: TimerDisplayProps) {
   const isVeryLowTime = timeLeft !== null && timeLeft <= 5;
 
   const formatTime = (seconds: number | null) => {
-    if (seconds === null) return "--:--";
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, "0")}`;
+    if (seconds === null) return "--";
+    return seconds.toString();
   };
 
   const bgClass = isVeryLowTime
@@ -70,9 +68,9 @@ export function TimerDisplay({ game }: TimerDisplayProps) {
         <p className="text-2xl font-bold text-white">{currentTeam.name}</p>
       </div>
 
-      {/* Large timer */}
+      {/* Large timer - seconds only */}
       <div className="flex-1 flex items-center justify-center">
-        <div className={`text-[18vw] sm:text-[22vw] font-mono font-bold leading-none text-white drop-shadow-lg transition-all ${
+        <div className={`text-[35vw] sm:text-[40vw] font-mono font-bold leading-none text-white drop-shadow-lg transition-all ${
           isVeryLowTime ? "animate-pulse scale-105" : ""
         }`}>
           {formatTime(timeLeft)}

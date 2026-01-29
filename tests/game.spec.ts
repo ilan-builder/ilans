@@ -156,6 +156,68 @@ test.describe('Ilans Game', () => {
 });
 
 test.describe('Two Device Flow', () => {
+  test('timer should display seconds only (no minutes)', async ({ browser }) => {
+    const mainContext = await browser.newContext();
+    const timerContext = await browser.newContext();
+
+    const mainPage = await mainContext.newPage();
+    const timerPage = await timerContext.newPage();
+
+    // Clear storage
+    await mainPage.goto('https://alias-2.vercel.app');
+    await mainPage.evaluate(() => localStorage.clear());
+    await mainPage.reload();
+
+    await timerPage.goto('https://alias-2.vercel.app');
+    await timerPage.evaluate(() => localStorage.clear());
+    await timerPage.reload();
+
+    // Main device: create room
+    await mainPage.getByText('מכשיר מסביר').click();
+    await mainPage.getByText('צור משחק חדש').click();
+
+    // Wait for room code
+    await expect(mainPage.getByText('קוד החדר')).toBeVisible({ timeout: 10000 });
+    const roomCodeElement = mainPage.locator('.text-3xl.font-mono.gradient-text');
+    const roomCode = await roomCodeElement.textContent();
+
+    // Timer device: join room
+    await timerPage.getByText('מכשיר טיימר').click();
+    await timerPage.getByPlaceholder('0000').fill(roomCode!);
+    await timerPage.getByText('הצטרף למשחק').click();
+
+    // Wait for connection
+    await expect(mainPage.getByText('טיימר מחובר ✓')).toBeVisible({ timeout: 10000 });
+
+    // Setup teams
+    const teamInputs = mainPage.locator('input[placeholder^="קבוצה"]');
+    await teamInputs.nth(0).fill('קבוצה א');
+    await teamInputs.nth(1).fill('קבוצה ב');
+
+    // Start game
+    await mainPage.getByText('התחל משחק!').click();
+
+    // Wait for transition screen
+    await expect(mainPage.getByText('מוכנים? יאללה!')).toBeVisible({ timeout: 10000 });
+
+    // Start the turn
+    await mainPage.getByText('מוכנים? יאללה!').click();
+
+    // Wait for timer to appear on timer device
+    await expect(timerPage.locator('.text-\\[35vw\\]')).toBeVisible({ timeout: 10000 });
+
+    // Get the timer text
+    const timerText = await timerPage.locator('.text-\\[35vw\\]').textContent();
+
+    // Timer should be just a number (no colon for MM:SS format)
+    expect(timerText).toMatch(/^\d{1,2}$/);
+    expect(timerText).not.toContain(':');
+
+    // Cleanup
+    await mainContext.close();
+    await timerContext.close();
+  });
+
   test('main and timer device should sync via room code', async ({ browser }) => {
     // Create two browser contexts (simulating two devices)
     const mainContext = await browser.newContext();
