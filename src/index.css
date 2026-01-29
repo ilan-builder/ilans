@@ -4,7 +4,7 @@
 
 :root {
   font-family: 'Rubik', Arial, sans-serif;
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 * {
@@ -16,16 +16,15 @@
 html, body, #root {
   height: 100%;
   width: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 body {
-  background-color: #1f2937;
-  color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #1a1a2e;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Prevent pull-to-refresh on mobile */
-  overscroll-behavior-y: contain;
+  overscroll-behavior: none;
 }
 
 /* Disable text selection on game elements */
@@ -35,7 +34,6 @@ button, .no-select {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Ensure buttons are easy to tap */
 button {
   touch-action: manipulation;
 }
@@ -45,7 +43,7 @@ html[dir="rtl"] {
   direction: rtl;
 }
 
-/* Hide scrollbar but allow scrolling */
+/* Hide scrollbar */
 ::-webkit-scrollbar {
   display: none;
 }
@@ -57,19 +55,51 @@ html[dir="rtl"] {
 
 /* Animations */
 @keyframes flash {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.3;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes bounce-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 1; }
+  100% { transform: scale(1.1); opacity: 0; }
 }
 
 .animate-flash {
   animation: flash 0.5s ease-in-out infinite;
 }
 
-/* Safe area for notched phones */
+.animate-bounce-soft {
+  animation: bounce-soft 2s ease-in-out infinite;
+}
+
+/* Glass morphism card */
+.glass {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.glass-dark {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Safe areas */
 .safe-area-top {
   padding-top: env(safe-area-inset-top);
 }

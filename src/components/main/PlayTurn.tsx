@@ -18,7 +18,6 @@ export function PlayTurn({ game }: PlayTurnProps) {
 
   const currentTeam = game.teams[game.currentTeamIndex];
 
-  // Calculate time left
   useEffect(() => {
     if (!game.timerEndTime) return;
 
@@ -73,22 +72,22 @@ export function PlayTurn({ game }: PlayTurnProps) {
   const isLowTime = timeLeft !== null && timeLeft <= 10;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex flex-col text-white">
-      {/* Header with team and timer */}
-      <div className="p-4 flex justify-between items-center">
+    <div className="h-screen flex flex-col p-4 safe-area-top safe-area-bottom">
+      {/* Header */}
+      <div className="glass p-3 mb-3 flex justify-between items-center">
         <div>
-          <p className="text-gray-400 text-sm">תור של</p>
-          <p className="text-xl font-bold text-blue-400">{currentTeam.name}</p>
+          <p className="text-gray-500 text-xs">תור של</p>
+          <p className="font-bold text-purple-600">{currentTeam.name}</p>
         </div>
-        <div className={`text-4xl font-mono font-bold ${
-          isLowTime ? "text-red-500 animate-pulse-fast" : "text-white"
+        <div className={`text-3xl font-mono font-bold ${
+          isLowTime ? "text-red-500 animate-pulse" : "text-gray-800"
         }`}>
           {timeLeft ?? "--"}
         </div>
       </div>
 
-      {/* Score board (compact) */}
-      <div className="px-4 mb-4">
+      {/* Score board */}
+      <div className="mb-3">
         <ScoreBoard
           teams={game.teams}
           currentTeamIndex={game.currentTeamIndex}
@@ -97,39 +96,39 @@ export function PlayTurn({ game }: PlayTurnProps) {
         />
       </div>
 
-      {/* Main word display */}
-      <div className="flex-1 flex items-center justify-center p-6">
-        <div className="text-center">
-          <p className="text-gray-400 text-sm mb-4">המילה היא</p>
-          <div className="text-6xl font-bold mb-2 leading-tight">
+      {/* Word display */}
+      <div className="glass flex-1 flex items-center justify-center">
+        <div className="text-center p-4">
+          <p className="text-gray-500 text-sm mb-2">המילה היא</p>
+          <div className="text-5xl font-bold text-gray-800 leading-tight">
             {game.currentWord || "..."}
           </div>
         </div>
       </div>
 
       {/* Action buttons */}
-      <div className="p-6 space-y-3">
+      <div className="mt-3 space-y-2">
         <div className="flex gap-3">
           <button
             onClick={handleSkip}
             disabled={isProcessing}
-            className="flex-1 py-6 bg-red-600 hover:bg-red-700 disabled:bg-gray-600 rounded-2xl font-bold text-2xl transition-colors shadow-lg"
+            className="flex-1 py-5 bg-gradient-to-r from-red-500 to-rose-500 text-white rounded-2xl font-bold text-xl shadow-lg active:scale-[0.98] transition-all disabled:opacity-50"
           >
-            דילוג ✕
+            ✕ דילוג
           </button>
           <button
             onClick={handleCorrect}
             disabled={isProcessing}
-            className="flex-1 py-6 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 rounded-2xl font-bold text-2xl transition-colors shadow-lg"
+            className="flex-1 py-5 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-2xl font-bold text-xl shadow-lg active:scale-[0.98] transition-all disabled:opacity-50"
           >
-            נכון ✓
+            ✓ נכון!
           </button>
         </div>
         <button
           onClick={handleEndTurn}
-          className="w-full py-3 bg-gray-700 hover:bg-gray-600 rounded-xl font-medium transition-colors"
+          className="w-full py-2 text-gray-500 text-sm"
         >
-          סיים תור
+          סיים תור מוקדם
         </button>
       </div>
     </div>

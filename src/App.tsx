@@ -20,11 +20,13 @@ import { WaitingScreen } from "./components/timer/WaitingScreen";
 
 // Shared components
 import { GameOver } from "./components/shared/GameOver";
+import { Instructions } from "./components/shared/Instructions";
 
 function App() {
   const [deviceRole, setDeviceRole] = useState<DeviceRole>(null);
   const [gameId, setGameId] = useState<Id<"games"> | null>(null);
   const [roomCode, setRoomCode] = useState<string>("");
+  const [showInstructions, setShowInstructions] = useState(false);
 
   const game = useGameSync(gameId);
   const resetGame = useMutation(api.games.resetGame);
@@ -69,51 +71,69 @@ function App() {
   // Role selection screen
   if (!deviceRole) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex flex-col items-center justify-center p-6 text-white">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-            אילנס
+      <div className="h-screen flex flex-col items-center justify-center p-6 safe-area-top safe-area-bottom">
+        {showInstructions && <Instructions onClose={() => setShowInstructions(false)} />}
+
+        <div className="text-center mb-8">
+          <h1 className="text-5xl font-bold text-white mb-2 drop-shadow-lg">
+            אילנס 🎯
           </h1>
-          <p className="text-gray-400 text-lg">משחק מילים בעברית</p>
+          <p className="text-white/80 text-lg">משחק מילים מטורף!</p>
         </div>
 
-        <div className="w-full max-w-sm space-y-4">
+        <div className="w-full max-w-xs space-y-4">
           <button
             onClick={() => setDeviceRole("main")}
-            className="w-full py-6 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-2xl transition-all shadow-lg"
+            className="w-full glass p-5 hover:scale-[1.02] transition-all active:scale-[0.98]"
           >
-            <div className="text-2xl font-bold mb-1">מכשיר מסביר</div>
-            <div className="text-blue-200 text-sm">מציג מילים, שולט במשחק</div>
+            <div className="flex items-center gap-4">
+              <span className="text-4xl">🎤</span>
+              <div className="text-right">
+                <div className="text-xl font-bold text-gray-800">מכשיר מסביר</div>
+                <div className="text-gray-500 text-sm">מציג מילים, שולט במשחק</div>
+              </div>
+            </div>
           </button>
 
           <button
             onClick={() => setDeviceRole("timer")}
-            className="w-full py-6 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 rounded-2xl transition-all shadow-lg"
+            className="w-full glass p-5 hover:scale-[1.02] transition-all active:scale-[0.98]"
           >
-            <div className="text-2xl font-bold mb-1">מכשיר טיימר</div>
-            <div className="text-purple-200 text-sm">מציג זמן וניקוד לכולם</div>
+            <div className="flex items-center gap-4">
+              <span className="text-4xl">⏱️</span>
+              <div className="text-right">
+                <div className="text-xl font-bold text-gray-800">מכשיר טיימר</div>
+                <div className="text-gray-500 text-sm">מציג זמן וניקוד לכולם</div>
+              </div>
+            </div>
           </button>
         </div>
 
-        <p className="mt-12 text-gray-500 text-sm text-center max-w-xs">
-          בחרו תפקיד למכשיר זה. מכשיר אחד משמש להסברה ומכשיר שני מציג את הטיימר.
-        </p>
+        <button
+          onClick={() => setShowInstructions(true)}
+          className="mt-8 flex items-center gap-2 text-white/90 hover:text-white transition-colors"
+        >
+          <span className="text-xl">❓</span>
+          <span className="underline underline-offset-4">איך משחקים?</span>
+        </button>
       </div>
     );
   }
 
   // Main device flow
   if (deviceRole === "main") {
-    // No game yet - create one
     if (!gameId || !game) {
       return (
-        <CreateRoom
-          onRoomCreated={(id, code) => saveSession("main", id, code)}
-        />
+        <>
+          {showInstructions && <Instructions onClose={() => setShowInstructions(false)} />}
+          <CreateRoom
+            onRoomCreated={(id, code) => saveSession("main", id, code)}
+            onShowInstructions={() => setShowInstructions(true)}
+          />
+        </>
       );
     }
 
-    // Game finished
     if (game.status === "finished") {
       return (
         <GameOver
@@ -124,29 +144,29 @@ function App() {
       );
     }
 
-    // Setup phase
     if (game.status === "waiting" || game.status === "setup") {
       return (
-        <SetupGame
-          gameId={game._id}
-          roomCode={roomCode}
-          timerDeviceJoined={game.timerDeviceJoined}
-          onSetupComplete={() => {}}
-        />
+        <>
+          {showInstructions && <Instructions onClose={() => setShowInstructions(false)} />}
+          <SetupGame
+            gameId={game._id}
+            roomCode={roomCode}
+            timerDeviceJoined={game.timerDeviceJoined}
+            onSetupComplete={() => {}}
+            onShowInstructions={() => setShowInstructions(true)}
+          />
+        </>
       );
     }
 
-    // Playing
     if (game.status === "playing") {
       return <PlayTurn game={game} />;
     }
 
-    // Stealing
     if (game.status === "stealing") {
       return <StealMode game={game} />;
     }
 
-    // Transition
     if (game.status === "transition") {
       return <TurnTransition game={game} />;
     }
@@ -154,16 +174,18 @@ function App() {
 
   // Timer device flow
   if (deviceRole === "timer") {
-    // No game yet - join one
     if (!gameId || !game) {
       return (
-        <JoinRoom
-          onJoined={(id, code) => saveSession("timer", id, code)}
-        />
+        <>
+          {showInstructions && <Instructions onClose={() => setShowInstructions(false)} />}
+          <JoinRoom
+            onJoined={(id, code) => saveSession("timer", id, code)}
+            onShowInstructions={() => setShowInstructions(true)}
+          />
+        </>
       );
     }
 
-    // Game finished
     if (game.status === "finished") {
       return (
         <GameOver
@@ -174,17 +196,14 @@ function App() {
       );
     }
 
-    // Waiting/Setup/Transition
     if (game.status === "waiting" || game.status === "setup" || game.status === "transition") {
       return <WaitingScreen game={game} />;
     }
 
-    // Playing
     if (game.status === "playing") {
       return <TimerDisplay game={game} />;
     }
 
-    // Stealing
     if (game.status === "stealing") {
       return <StealAlert game={game} />;
     }
@@ -192,12 +211,12 @@ function App() {
 
   // Fallback
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center text-white">
-      <div className="text-center">
-        <p className="text-xl mb-4">טוען...</p>
+    <div className="h-screen flex items-center justify-center">
+      <div className="glass p-8 text-center">
+        <p className="text-xl mb-4 text-gray-700">טוען...</p>
         <button
           onClick={clearSession}
-          className="text-blue-400 underline"
+          className="text-purple-600 underline"
         >
           התחל מחדש
         </button>

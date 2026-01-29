@@ -11,14 +11,14 @@ export function WaitingScreen({ game }: WaitingScreenProps) {
 
   if (isSetup) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex flex-col items-center justify-center p-6 text-white">
-        <div className="text-center">
-          <div className="text-6xl mb-6">⏳</div>
-          <h2 className="text-2xl font-bold mb-2">מחובר לחדר</h2>
-          <p className="text-gray-400 text-lg mb-8">
+      <div className="h-screen flex flex-col items-center justify-center p-6 safe-area-top safe-area-bottom">
+        <div className="glass p-8 text-center max-w-xs">
+          <div className="text-6xl mb-4 animate-bounce-soft">✅</div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">מחובר!</h2>
+          <p className="text-gray-600 mb-6">
             ממתין להתחלת המשחק...
           </p>
-          <div className="text-4xl font-mono font-bold text-blue-400">
+          <div className="text-3xl font-mono font-bold gradient-text">
             {game.roomCode}
           </div>
         </div>
@@ -26,11 +26,10 @@ export function WaitingScreen({ game }: WaitingScreenProps) {
     );
   }
 
-  // Transition screen
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex flex-col text-white">
+    <div className="h-screen flex flex-col p-4 safe-area-top safe-area-bottom">
       {/* Scores */}
-      <div className="p-6">
+      <div className="glass p-4 mb-4">
         <ScoreBoard
           teams={game.teams}
           currentTeamIndex={game.currentTeamIndex}
@@ -39,13 +38,13 @@ export function WaitingScreen({ game }: WaitingScreenProps) {
       </div>
 
       {/* Next team info */}
-      <div className="flex-1 flex flex-col items-center justify-center p-6">
-        <p className="text-gray-400 text-xl mb-2">עכשיו תור של</p>
-        <div className="text-6xl font-bold text-blue-400 mb-8">
+      <div className="glass flex-1 flex flex-col items-center justify-center">
+        <p className="text-gray-500 text-lg mb-2">עכשיו תור של</p>
+        <div className="text-4xl font-bold text-purple-600 mb-4">
           {currentTeam?.name || "..."}
         </div>
-        <div className="text-4xl animate-pulse">🎯</div>
-        <p className="text-gray-500 text-lg mt-4">
+        <div className="text-6xl animate-bounce-soft">🎯</div>
+        <p className="text-gray-500 mt-4">
           ממתין להתחלת הסיבוב...
         </p>
       </div>

@@ -22,9 +22,9 @@ export function TurnTransition({ game }: TurnTransitionProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex flex-col text-white">
+    <div className="h-screen flex flex-col p-4 safe-area-top safe-area-bottom">
       {/* Scores */}
-      <div className="p-6">
+      <div className="glass p-4 mb-4">
         <ScoreBoard
           teams={game.teams}
           currentTeamIndex={game.currentTeamIndex}
@@ -33,23 +33,24 @@ export function TurnTransition({ game }: TurnTransitionProps) {
       </div>
 
       {/* Next team */}
-      <div className="flex-1 flex flex-col items-center justify-center p-6">
-        <p className="text-gray-400 text-lg mb-2">עכשיו תור של</p>
-        <div className="text-5xl font-bold text-blue-400 mb-8">
+      <div className="glass flex-1 flex flex-col items-center justify-center">
+        <p className="text-gray-500 text-lg mb-2">עכשיו תור של</p>
+        <div className="text-4xl font-bold text-purple-600 mb-4">
           {currentTeam.name}
         </div>
-        <p className="text-gray-500 text-center mb-8">
+        <div className="text-5xl animate-bounce-soft mb-4">🎤</div>
+        <p className="text-gray-500 text-sm text-center px-4">
           העבירו את המכשיר למסביר של הקבוצה
         </p>
       </div>
 
       {/* Ready button */}
-      <div className="p-6">
+      <div className="mt-4">
         <button
           onClick={handleReady}
-          className="w-full py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-2xl font-bold text-2xl transition-all shadow-lg shadow-blue-500/30"
+          className="w-full py-5 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-2xl font-bold text-xl shadow-lg hover:shadow-xl active:scale-[0.98] transition-all"
         >
-          מוכנים? התחל!
+          🚀 מוכנים? יאללה!
         </button>
       </div>
     </div>

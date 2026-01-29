@@ -11,7 +11,6 @@ export function StealAlert({ game }: StealAlertProps) {
 
   const currentTeam = game.teams[game.currentTeamIndex];
 
-  // Play buzzer sound once
   useEffect(() => {
     if (hasPlayedBuzzer.current) return;
     hasPlayedBuzzer.current = true;
@@ -33,33 +32,33 @@ export function StealAlert({ game }: StealAlertProps) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-red-900 flex flex-col text-white">
-      {/* STEAL MODE header */}
-      <div className="p-4 sm:p-6 text-center">
-        <div className="text-4xl sm:text-6xl font-bold text-red-400 animate-flash mb-2">
-          נגמר הזמן!
+    <div className="h-screen flex flex-col p-4 safe-area-top safe-area-bottom bg-gradient-to-b from-amber-400 to-orange-500">
+      {/* Header */}
+      <div className="text-center py-4">
+        <div className="text-4xl sm:text-5xl font-bold text-white animate-flash">
+          ⏰ נגמר הזמן!
         </div>
-        <p className="text-xl sm:text-2xl text-red-200">
+        <p className="text-xl text-white/90 mt-2">
           הזמן של {currentTeam.name} נגמר
         </p>
       </div>
 
       {/* Big steal indicator */}
-      <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-6">
-        <div className="text-7xl sm:text-9xl mb-4 sm:mb-6">⏰</div>
-        <div className="text-3xl sm:text-5xl font-bold text-yellow-400 animate-pulse mb-4">
+      <div className="flex-1 flex flex-col items-center justify-center">
+        <div className="text-8xl mb-4 animate-bounce-soft">⚡</div>
+        <div className="text-4xl sm:text-5xl font-bold text-white mb-4">
           גניבה!
         </div>
-        <p className="text-xl text-gray-300 text-center">
+        <p className="text-lg text-white/80 text-center">
           קבוצות אחרות יכולות לנחש
         </p>
-        <p className="text-lg text-gray-400 text-center mt-2">
+        <p className="text-white/60 text-center mt-2">
           ממתין להחלטת המסביר...
         </p>
       </div>
 
       {/* Score board */}
-      <div className="p-6">
+      <div className="glass p-4">
         <ScoreBoard
           teams={game.teams}
           currentTeamIndex={game.currentTeamIndex}

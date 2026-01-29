@@ -5,9 +5,10 @@ import { Id } from "../../../convex/_generated/dataModel";
 
 interface CreateRoomProps {
   onRoomCreated: (gameId: Id<"games">, roomCode: string) => void;
+  onShowInstructions: () => void;
 }
 
-export function CreateRoom({ onRoomCreated }: CreateRoomProps) {
+export function CreateRoom({ onRoomCreated, onShowInstructions }: CreateRoomProps) {
   const createGame = useMutation(api.games.createGame);
   const [isCreating, setIsCreating] = useState(false);
 
@@ -23,28 +24,40 @@ export function CreateRoom({ onRoomCreated }: CreateRoomProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex flex-col items-center justify-center p-6 text-white">
-      <div className="text-center mb-12">
-        <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-          אילנס
+    <div className="h-screen flex flex-col items-center justify-center p-6 safe-area-top safe-area-bottom">
+      <div className="text-center mb-8">
+        <span className="text-6xl mb-4 block animate-bounce-soft">🎤</span>
+        <h1 className="text-3xl font-bold text-white drop-shadow-lg">
+          מכשיר מסביר
         </h1>
-        <p className="text-gray-400 text-lg">משחק מילים בעברית</p>
+        <p className="text-white/70 mt-2">צרו חדר חדש להתחיל</p>
       </div>
 
-      <div className="w-full max-w-sm">
+      <div className="w-full max-w-xs">
         <button
           onClick={handleCreate}
           disabled={isCreating}
-          className="w-full py-5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-600 rounded-2xl font-bold text-2xl transition-all shadow-lg shadow-blue-500/30"
+          className="w-full glass py-5 font-bold text-xl text-gray-800 hover:scale-[1.02] transition-all active:scale-[0.98] disabled:opacity-50"
         >
-          {isCreating ? "יוצר חדר..." : "צור משחק חדש"}
+          {isCreating ? (
+            <span className="flex items-center justify-center gap-2">
+              <span className="animate-spin">⏳</span> יוצר חדר...
+            </span>
+          ) : (
+            <span className="flex items-center justify-center gap-2">
+              <span>✨</span> צור משחק חדש
+            </span>
+          )}
         </button>
       </div>
 
-      <div className="mt-16 text-center text-gray-500 text-sm">
-        <p>מכשיר המסביר - מציג את המילים</p>
-        <p className="mt-1">מכשיר הטיימר - מציג את הזמן לכולם</p>
-      </div>
+      <button
+        onClick={onShowInstructions}
+        className="mt-8 flex items-center gap-2 text-white/90 hover:text-white transition-colors"
+      >
+        <span className="text-xl">❓</span>
+        <span className="underline underline-offset-4">איך משחקים?</span>
+      </button>
     </div>
   );
 }

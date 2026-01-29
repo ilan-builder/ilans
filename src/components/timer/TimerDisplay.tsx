@@ -12,7 +12,6 @@ export function TimerDisplay({ game }: TimerDisplayProps) {
 
   const currentTeam = game.teams[game.currentTeamIndex];
 
-  // Calculate time left
   useEffect(() => {
     if (!game.timerEndTime) {
       setTimeLeft(null);
@@ -23,10 +22,8 @@ export function TimerDisplay({ game }: TimerDisplayProps) {
       const remaining = Math.max(0, Math.ceil((game.timerEndTime! - Date.now()) / 1000));
       setTimeLeft(remaining);
 
-      // Play warning sound at 5 seconds
       if (remaining <= 5 && remaining > 0 && remaining !== lastWarningTime.current) {
         lastWarningTime.current = remaining;
-        // Simple beep using Web Audio API
         try {
           const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
           const oscillator = audioContext.createOscillator();
@@ -52,7 +49,6 @@ export function TimerDisplay({ game }: TimerDisplayProps) {
   const isLowTime = timeLeft !== null && timeLeft <= 10;
   const isVeryLowTime = timeLeft !== null && timeLeft <= 5;
 
-  // Format time as MM:SS
   const formatTime = (seconds: number | null) => {
     if (seconds === null) return "--:--";
     const mins = Math.floor(seconds / 60);
@@ -60,29 +56,31 @@ export function TimerDisplay({ game }: TimerDisplayProps) {
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
+  const bgClass = isVeryLowTime
+    ? "bg-gradient-to-b from-red-500 to-rose-600"
+    : isLowTime
+    ? "bg-gradient-to-b from-amber-400 to-orange-500"
+    : "bg-gradient-to-b from-blue-500 to-purple-600";
+
   return (
-    <div className={`min-h-screen flex flex-col text-white transition-colors duration-300 ${
-      isVeryLowTime ? "bg-red-900" : isLowTime ? "bg-orange-900" : "bg-gradient-to-b from-gray-900 to-gray-800"
-    }`}>
+    <div className={`h-screen flex flex-col p-4 safe-area-top safe-area-bottom transition-all duration-300 ${bgClass}`}>
       {/* Current team */}
-      <div className="p-6 text-center">
-        <p className="text-gray-400 text-lg">תור של</p>
-        <p className="text-3xl font-bold text-blue-400">{currentTeam.name}</p>
+      <div className="glass-dark p-3 text-center">
+        <p className="text-white/70 text-sm">תור של</p>
+        <p className="text-2xl font-bold text-white">{currentTeam.name}</p>
       </div>
 
       {/* Large timer */}
-      <div className="flex-1 flex items-center justify-center overflow-hidden px-4">
-        <div className={`text-[20vw] sm:text-[25vw] md:text-[12rem] font-mono font-bold leading-none transition-all ${
-          isVeryLowTime ? "text-red-400 animate-pulse-fast scale-105" :
-          isLowTime ? "text-orange-400 animate-pulse" :
-          "text-white"
+      <div className="flex-1 flex items-center justify-center">
+        <div className={`text-[18vw] sm:text-[22vw] font-mono font-bold leading-none text-white drop-shadow-lg transition-all ${
+          isVeryLowTime ? "animate-pulse scale-105" : ""
         }`}>
           {formatTime(timeLeft)}
         </div>
       </div>
 
       {/* Score board */}
-      <div className="p-6">
+      <div className="glass p-4">
         <ScoreBoard
           teams={game.teams}
           currentTeamIndex={game.currentTeamIndex}

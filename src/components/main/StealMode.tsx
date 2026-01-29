@@ -22,48 +22,48 @@ export function StealMode({ game }: StealModeProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-red-900 to-gray-900 flex flex-col text-white">
+    <div className="h-screen flex flex-col p-4 safe-area-top safe-area-bottom bg-gradient-to-b from-amber-400 to-orange-500">
       {/* Header */}
-      <div className="p-6 text-center">
-        <div className="text-3xl font-bold text-red-400 animate-flash mb-2">
-          גניבה!
+      <div className="text-center py-4">
+        <div className="text-4xl font-bold text-white animate-flash mb-1">
+          ⚡ גניבה!
         </div>
-        <p className="text-gray-300">
+        <p className="text-white/90">
           הזמן של {currentTeam.name} נגמר
         </p>
       </div>
 
-      {/* The word that wasn't guessed */}
-      <div className="flex-1 flex flex-col items-center justify-center p-6">
-        <p className="text-gray-400 text-sm mb-4">המילה הייתה</p>
-        <div className="text-6xl font-bold mb-8 text-yellow-400">
+      {/* The word */}
+      <div className="glass flex-1 flex flex-col items-center justify-center mx-2">
+        <p className="text-gray-500 text-sm mb-2">המילה הייתה</p>
+        <div className="text-5xl font-bold text-purple-600 mb-6">
           {game.currentWord || "---"}
         </div>
-        <p className="text-gray-400 text-center mb-6">
+        <p className="text-gray-600 text-center mb-4">
           מי ניחש נכון?
         </p>
 
-        {/* Team selection buttons */}
-        <div className="w-full max-w-sm space-y-3">
+        {/* Team buttons */}
+        <div className="w-full max-w-xs space-y-2">
           {otherTeams.map((team) => (
             <button
               key={team.id}
               onClick={() => handleSteal(team.id)}
-              className="w-full py-4 bg-green-600 hover:bg-green-700 rounded-xl font-bold text-xl transition-colors shadow-lg"
+              className="w-full py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold text-lg shadow-lg active:scale-[0.98] transition-all"
             >
-              {team.name} גנב! (+1)
+              🎉 {team.name} גנב!
             </button>
           ))}
         </div>
       </div>
 
       {/* No steal button */}
-      <div className="p-6">
+      <div className="mt-4">
         <button
           onClick={handleNoSteal}
-          className="w-full py-4 bg-gray-700 hover:bg-gray-600 rounded-xl font-medium text-lg transition-colors"
+          className="w-full py-4 glass text-gray-700 rounded-xl font-medium"
         >
-          אף אחד לא ניחש
+          אף אחד לא ניחש 😅
         </button>
       </div>
     </div>
