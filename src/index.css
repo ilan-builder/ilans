@@ -5,6 +5,8 @@
 :root {
   font-family: 'Rubik', Arial, sans-serif;
   color-scheme: light;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 * {
@@ -16,7 +18,9 @@
 html, body, #root {
   height: 100%;
   width: 100%;
-  overflow: hidden;
+  /* Use dvh for mobile browsers, fallback to vh */
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 body {
@@ -24,7 +28,6 @@ body {
   color: #1a1a2e;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overscroll-behavior: none;
 }
 
 button, .no-select {
@@ -41,13 +44,12 @@ html[dir="rtl"] {
   direction: rtl;
 }
 
-::-webkit-scrollbar {
-  display: none;
-}
-
-* {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+/* Mobile-friendly full screen */
+.mobile-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding-top: max(1rem, calc(var(--safe-top) + 1rem));
+  padding-bottom: max(1rem, calc(var(--safe-bottom) + 1rem));
 }
 
 /* Animations */
@@ -78,37 +80,21 @@ html[dir="rtl"] {
   animation: bounce-soft 2s ease-in-out infinite;
 }
 
-/* Doodle style card */
+/* Doodle style card - no hover effects to allow scrolling */
 .doodle-card {
   background: white;
   border: 3px solid #1a1a2e;
   border-radius: 20px;
   box-shadow: 4px 4px 0px #1a1a2e;
-  transition: all 0.2s ease;
 }
 
-.doodle-card:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0px #1a1a2e;
-}
-
-.doodle-card:active {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0px #1a1a2e;
-}
-
-/* Doodle button */
+/* Doodle button - with effects */
 .doodle-btn {
   border: 3px solid #1a1a2e;
   border-radius: 16px;
   box-shadow: 3px 3px 0px #1a1a2e;
   font-weight: 700;
   transition: all 0.15s ease;
-}
-
-.doodle-btn:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 4px 4px 0px #1a1a2e;
 }
 
 .doodle-btn:active {
@@ -119,8 +105,6 @@ html[dir="rtl"] {
 .doodle-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  transform: none;
-  box-shadow: 3px 3px 0px #1a1a2e;
 }
 
 /* Doodle input */
@@ -153,4 +137,9 @@ html[dir="rtl"] {
 
 .safe-area-bottom {
   padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Allow scrolling in overflow containers */
+.overflow-y-auto {
+  -webkit-overflow-scrolling: touch;
 }

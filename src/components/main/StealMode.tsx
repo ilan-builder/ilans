@@ -4,10 +4,9 @@ import { Game } from "../../types/game";
 
 interface StealModeProps {
   game: Game;
-  onStopGame: () => void;
 }
 
-export function StealMode({ game, onStopGame }: StealModeProps) {
+export function StealMode({ game }: StealModeProps) {
   const awardSteal = useMutation(api.games.awardSteal);
   const skipSteal = useMutation(api.games.skipSteal);
 
@@ -23,7 +22,7 @@ export function StealMode({ game, onStopGame }: StealModeProps) {
   };
 
   return (
-    <div className="h-screen flex flex-col p-4 bg-amber-50 safe-area-top safe-area-bottom">
+    <div className="mobile-screen flex flex-col p-4 pt-16 bg-amber-50">
       {/* Header */}
       <div className="text-center py-4">
         <div className="text-4xl font-bold text-amber-600 animate-wiggle mb-1">
@@ -58,19 +57,13 @@ export function StealMode({ game, onStopGame }: StealModeProps) {
         </div>
       </div>
 
-      {/* Bottom buttons */}
-      <div className="mt-4 space-y-2">
+      {/* Bottom button */}
+      <div className="mt-4">
         <button
           onClick={handleNoSteal}
           className="w-full doodle-btn bg-gray-200 text-gray-700 py-4"
         >
           אף אחד לא ניחש 😅
-        </button>
-        <button
-          onClick={onStopGame}
-          className="w-full py-2 text-red-500 text-sm hover:text-red-700"
-        >
-          ✕ עצור משחק
         </button>
       </div>
     </div>

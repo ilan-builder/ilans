@@ -4,10 +4,9 @@ import { ScoreBoard } from "../shared/ScoreBoard";
 
 interface TimerDisplayProps {
   game: Game;
-  onStopGame: () => void;
 }
 
-export function TimerDisplay({ game, onStopGame }: TimerDisplayProps) {
+export function TimerDisplay({ game }: TimerDisplayProps) {
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const lastWarningTime = useRef<number | null>(null);
 
@@ -56,7 +55,7 @@ export function TimerDisplay({ game, onStopGame }: TimerDisplayProps) {
   };
 
   return (
-    <div className={`h-screen flex flex-col p-4 safe-area-top safe-area-bottom transition-colors duration-300 ${
+    <div className={`mobile-screen flex flex-col p-4 pt-16 transition-colors duration-300 ${
       isVeryLowTime ? "bg-red-50" : isLowTime ? "bg-amber-50" : "bg-white"
     }`}>
       {/* Current team */}
@@ -84,14 +83,6 @@ export function TimerDisplay({ game, onStopGame }: TimerDisplayProps) {
           targetScore={game.targetScore}
         />
       </div>
-
-      {/* Stop button */}
-      <button
-        onClick={onStopGame}
-        className="mt-3 py-2 text-red-500 text-sm hover:text-red-700"
-      >
-        ✕ עצור משחק
-      </button>
     </div>
   );
 }

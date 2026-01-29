@@ -39,7 +39,7 @@ export function JoinRoom({ onJoined, onShowInstructions }: JoinRoomProps) {
   };
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center p-6 bg-white safe-area-top safe-area-bottom">
+    <div className="mobile-screen flex flex-col items-center justify-center p-6 bg-white">
       <div className="text-center mb-10">
         <span className="text-7xl mb-4 block animate-bounce-soft">⏱️</span>
         <h1 className="text-3xl font-bold text-gray-800">

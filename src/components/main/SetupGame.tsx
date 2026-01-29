@@ -10,7 +10,6 @@ interface SetupGameProps {
   timerDeviceJoined: boolean;
   onSetupComplete: () => void;
   onShowInstructions: () => void;
-  onStopGame: () => void;
 }
 
 interface TeamInput {
@@ -18,7 +17,7 @@ interface TeamInput {
   name: string;
 }
 
-export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructions, onStopGame }: SetupGameProps) {
+export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructions }: SetupGameProps) {
   const setupTeams = useMutation(api.games.setupTeams);
   const [teams, setTeams] = useState<TeamInput[]>([
     { id: "1", name: "" },
@@ -70,7 +69,7 @@ export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructi
   };
 
   return (
-    <div className="h-screen flex flex-col p-4 bg-white safe-area-top safe-area-bottom">
+    <div className="mobile-screen flex flex-col p-4 pt-16 bg-white">
       {/* Room Code Header */}
       <div className="doodle-card p-4 mb-4 text-center">
         <p className="text-gray-500 text-xs mb-1">קוד החדר</p>
@@ -197,20 +196,12 @@ export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructi
         >
           {isSubmitting ? "מתחיל..." : !timerDeviceJoined ? "ממתין לטיימר..." : "🚀 התחל משחק!"}
         </button>
-        <div className="flex gap-2">
-          <button
-            onClick={onShowInstructions}
-            className="flex-1 py-2 text-gray-500 text-sm hover:text-gray-700"
-          >
-            ❓ הוראות
-          </button>
-          <button
-            onClick={onStopGame}
-            className="flex-1 py-2 text-red-500 text-sm hover:text-red-700"
-          >
-            ✕ עצור משחק
-          </button>
-        </div>
+        <button
+          onClick={onShowInstructions}
+          className="w-full py-2 text-gray-500 text-sm hover:text-gray-700"
+        >
+          ❓ איך משחקים?
+        </button>
       </div>
     </div>
   );

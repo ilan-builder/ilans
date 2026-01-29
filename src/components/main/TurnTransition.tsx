@@ -6,10 +6,9 @@ import { ScoreBoard } from "../shared/ScoreBoard";
 
 interface TurnTransitionProps {
   game: Game;
-  onStopGame: () => void;
 }
 
-export function TurnTransition({ game, onStopGame }: TurnTransitionProps) {
+export function TurnTransition({ game }: TurnTransitionProps) {
   const startTurn = useMutation(api.games.startTurn);
 
   const currentTeam = game.teams[game.currentTeamIndex];
@@ -23,7 +22,7 @@ export function TurnTransition({ game, onStopGame }: TurnTransitionProps) {
   };
 
   return (
-    <div className="h-screen flex flex-col p-4 bg-white safe-area-top safe-area-bottom">
+    <div className="mobile-screen flex flex-col p-4 pt-16 bg-white">
       {/* Scores */}
       <div className="doodle-card p-4 mb-4">
         <ScoreBoard
@@ -45,19 +44,13 @@ export function TurnTransition({ game, onStopGame }: TurnTransitionProps) {
         </p>
       </div>
 
-      {/* Bottom buttons */}
-      <div className="mt-4 space-y-2">
+      {/* Bottom button */}
+      <div className="mt-4">
         <button
           onClick={handleReady}
           className="w-full doodle-btn bg-indigo-500 text-white py-5 text-xl"
         >
           🚀 מוכנים? יאללה!
-        </button>
-        <button
-          onClick={onStopGame}
-          className="w-full py-2 text-red-500 text-sm hover:text-red-700"
-        >
-          ✕ עצור משחק
         </button>
       </div>
     </div>

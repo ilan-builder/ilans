@@ -21,6 +21,7 @@ import { WaitingScreen } from "./components/timer/WaitingScreen";
 // Shared components
 import { GameOver } from "./components/shared/GameOver";
 import { Instructions } from "./components/shared/Instructions";
+import { EndGameButton } from "./components/shared/EndGameButton";
 
 function App() {
   const [deviceRole, setDeviceRole] = useState<DeviceRole>(null);
@@ -67,10 +68,10 @@ function App() {
     }
   };
 
-  // Role selection screen
+  // Role selection screen - no end button needed here
   if (!deviceRole) {
     return (
-      <div className="h-screen flex flex-col items-center justify-center p-6 bg-white safe-area-top safe-area-bottom">
+      <div className="mobile-screen flex flex-col items-center justify-center p-6 bg-white">
         {showInstructions && <Instructions onClose={() => setShowInstructions(false)} />}
 
         <div className="text-center mb-10">
@@ -124,6 +125,7 @@ function App() {
     if (!gameId || !game) {
       return (
         <>
+          <EndGameButton onEndGame={clearSession} />
           {showInstructions && <Instructions onClose={() => setShowInstructions(false)} />}
           <CreateRoom
             onRoomCreated={(id, code) => saveSession("main", id, code)}
@@ -135,17 +137,21 @@ function App() {
 
     if (game.status === "finished") {
       return (
-        <GameOver
-          teams={game.teams}
-          onPlayAgain={handlePlayAgain}
-          onNewGame={clearSession}
-        />
+        <>
+          <EndGameButton onEndGame={clearSession} />
+          <GameOver
+            teams={game.teams}
+            onPlayAgain={handlePlayAgain}
+            onNewGame={clearSession}
+          />
+        </>
       );
     }
 
     if (game.status === "waiting" || game.status === "setup") {
       return (
         <>
+          <EndGameButton onEndGame={clearSession} />
           {showInstructions && <Instructions onClose={() => setShowInstructions(false)} />}
           <SetupGame
             gameId={game._id}
@@ -153,22 +159,36 @@ function App() {
             timerDeviceJoined={game.timerDeviceJoined}
             onSetupComplete={() => {}}
             onShowInstructions={() => setShowInstructions(true)}
-            onStopGame={clearSession}
           />
         </>
       );
     }
 
     if (game.status === "playing") {
-      return <PlayTurn game={game} onStopGame={clearSession} />;
+      return (
+        <>
+          <EndGameButton onEndGame={clearSession} />
+          <PlayTurn game={game} />
+        </>
+      );
     }
 
     if (game.status === "stealing") {
-      return <StealMode game={game} onStopGame={clearSession} />;
+      return (
+        <>
+          <EndGameButton onEndGame={clearSession} />
+          <StealMode game={game} />
+        </>
+      );
     }
 
     if (game.status === "transition") {
-      return <TurnTransition game={game} onStopGame={clearSession} />;
+      return (
+        <>
+          <EndGameButton onEndGame={clearSession} />
+          <TurnTransition game={game} />
+        </>
+      );
     }
   }
 
@@ -177,6 +197,7 @@ function App() {
     if (!gameId || !game) {
       return (
         <>
+          <EndGameButton onEndGame={clearSession} />
           {showInstructions && <Instructions onClose={() => setShowInstructions(false)} />}
           <JoinRoom
             onJoined={(id, code) => saveSession("timer", id, code)}
@@ -188,30 +209,49 @@ function App() {
 
     if (game.status === "finished") {
       return (
-        <GameOver
-          teams={game.teams}
-          onPlayAgain={handlePlayAgain}
-          onNewGame={clearSession}
-        />
+        <>
+          <EndGameButton onEndGame={clearSession} />
+          <GameOver
+            teams={game.teams}
+            onPlayAgain={handlePlayAgain}
+            onNewGame={clearSession}
+          />
+        </>
       );
     }
 
     if (game.status === "waiting" || game.status === "setup" || game.status === "transition") {
-      return <WaitingScreen game={game} onStopGame={clearSession} />;
+      return (
+        <>
+          <EndGameButton onEndGame={clearSession} />
+          <WaitingScreen game={game} />
+        </>
+      );
     }
 
     if (game.status === "playing") {
-      return <TimerDisplay game={game} onStopGame={clearSession} />;
+      return (
+        <>
+          <EndGameButton onEndGame={clearSession} />
+          <TimerDisplay game={game} />
+        </>
+      );
     }
 
     if (game.status === "stealing") {
-      return <StealAlert game={game} onStopGame={clearSession} />;
+      return (
+        <>
+          <EndGameButton onEndGame={clearSession} />
+          <StealAlert game={game} />
+        </>
+      );
     }
   }
 
   // Fallback
   return (
-    <div className="h-screen flex items-center justify-center bg-white">
+    <div className="mobile-screen flex items-center justify-center bg-white">
+      <EndGameButton onEndGame={clearSession} />
       <div className="doodle-card p-8 text-center">
         <p className="text-xl mb-4 text-gray-700">טוען...</p>
         <button

@@ -4,10 +4,9 @@ import { ScoreBoard } from "../shared/ScoreBoard";
 
 interface StealAlertProps {
   game: Game;
-  onStopGame: () => void;
 }
 
-export function StealAlert({ game, onStopGame }: StealAlertProps) {
+export function StealAlert({ game }: StealAlertProps) {
   const hasPlayedBuzzer = useRef(false);
 
   const currentTeam = game.teams[game.currentTeamIndex];
@@ -33,7 +32,7 @@ export function StealAlert({ game, onStopGame }: StealAlertProps) {
   }, []);
 
   return (
-    <div className="h-screen flex flex-col p-4 bg-amber-50 safe-area-top safe-area-bottom">
+    <div className="mobile-screen flex flex-col p-4 pt-16 bg-amber-50">
       {/* Header */}
       <div className="text-center py-4">
         <div className="text-5xl font-bold text-amber-600 animate-wiggle">
@@ -66,14 +65,6 @@ export function StealAlert({ game, onStopGame }: StealAlertProps) {
           targetScore={game.targetScore}
         />
       </div>
-
-      {/* Stop button */}
-      <button
-        onClick={onStopGame}
-        className="mt-3 py-2 text-red-500 text-sm hover:text-red-700"
-      >
-        ✕ עצור משחק
-      </button>
     </div>
   );
 }

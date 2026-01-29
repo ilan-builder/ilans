@@ -7,10 +7,9 @@ import { ScoreBoard } from "../shared/ScoreBoard";
 
 interface PlayTurnProps {
   game: Game;
-  onStopGame: () => void;
 }
 
-export function PlayTurn({ game, onStopGame }: PlayTurnProps) {
+export function PlayTurn({ game }: PlayTurnProps) {
   const markCorrect = useMutation(api.games.markCorrect);
   const markSkip = useMutation(api.games.markSkip);
   const endTurn = useMutation(api.games.endTurn);
@@ -73,7 +72,7 @@ export function PlayTurn({ game, onStopGame }: PlayTurnProps) {
   const isLowTime = timeLeft !== null && timeLeft <= 10;
 
   return (
-    <div className="h-screen flex flex-col p-4 bg-white safe-area-top safe-area-bottom">
+    <div className="mobile-screen flex flex-col p-4 pt-16 bg-white">
       {/* Header */}
       <div className="doodle-card p-3 mb-3 flex justify-between items-center">
         <div>
@@ -125,20 +124,12 @@ export function PlayTurn({ game, onStopGame }: PlayTurnProps) {
             ✓ נכון!
           </button>
         </div>
-        <div className="flex gap-2">
-          <button
-            onClick={handleEndTurn}
-            className="flex-1 py-2 text-gray-500 text-sm hover:text-gray-700"
-          >
-            סיים תור מוקדם
-          </button>
-          <button
-            onClick={onStopGame}
-            className="flex-1 py-2 text-red-500 text-sm hover:text-red-700"
-          >
-            ✕ עצור משחק
-          </button>
-        </div>
+        <button
+          onClick={handleEndTurn}
+          className="w-full py-2 text-gray-500 text-sm hover:text-gray-700"
+        >
+          סיים תור מוקדם
+        </button>
       </div>
     </div>
   );
