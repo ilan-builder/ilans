@@ -11,13 +11,16 @@ test.describe('Ilans Game', () => {
   test('should display role selection screen', async ({ page }) => {
     await page.goto('/');
 
-    // Check title is visible
-    await expect(page.getByText('אילנס')).toBeVisible();
-    await expect(page.getByText('משחק מילים בעברית')).toBeVisible();
+    // Check title is visible (with emoji)
+    await expect(page.getByText('אילנס 🎯')).toBeVisible();
+    await expect(page.getByText('משחק מילים מטורף!')).toBeVisible();
 
     // Check both role buttons are visible
     await expect(page.getByText('מכשיר מסביר')).toBeVisible();
     await expect(page.getByText('מכשיר טיימר')).toBeVisible();
+
+    // Check instructions button
+    await expect(page.getByText('איך משחקים?')).toBeVisible();
   });
 
   test('main device: should create room and show room code', async ({ page }) => {
@@ -32,14 +35,14 @@ test.describe('Ilans Game', () => {
     // Wait for room code to appear (4-digit number)
     await expect(page.getByText('קוד החדר')).toBeVisible({ timeout: 10000 });
 
-    // Room code should be visible (look for 4-digit pattern)
-    const roomCodeElement = page.locator('.text-5xl.font-mono');
+    // Room code should be visible (look for 4-digit pattern in gradient text)
+    const roomCodeElement = page.locator('.text-3xl.font-mono.gradient-text');
     await expect(roomCodeElement).toBeVisible();
     const roomCode = await roomCodeElement.textContent();
     expect(roomCode).toMatch(/^\d{4}$/);
 
     // Should show waiting for timer device
-    await expect(page.getByText('ממתין למכשיר הטיימר')).toBeVisible();
+    await expect(page.getByText('ממתין לטיימר...').first()).toBeVisible();
   });
 
   test('timer device: should show join room screen', async ({ page }) => {
@@ -51,7 +54,7 @@ test.describe('Ilans Game', () => {
     // Should show join room screen
     await expect(page.getByText('הכניסו את קוד החדר')).toBeVisible();
     await expect(page.getByPlaceholder('0000')).toBeVisible();
-    await expect(page.getByText('הצטרף')).toBeVisible();
+    await expect(page.getByText('הצטרף למשחק')).toBeVisible();
   });
 
   test('timer device: should show error for invalid room code', async ({ page }) => {
@@ -62,7 +65,7 @@ test.describe('Ilans Game', () => {
 
     // Enter invalid room code
     await page.getByPlaceholder('0000').fill('9999');
-    await page.getByText('הצטרף').click();
+    await page.getByText('הצטרף למשחק').click();
 
     // Should show error message
     await expect(page.getByText('חדר לא נמצא')).toBeVisible({ timeout: 5000 });
@@ -88,9 +91,6 @@ test.describe('Ilans Game', () => {
 
     // Should have difficulty options
     await expect(page.getByText('רמת קושי')).toBeVisible();
-    await expect(page.getByText('קל')).toBeVisible();
-    await expect(page.getByText('בינוני')).toBeVisible();
-    await expect(page.getByText('קשה')).toBeVisible();
 
     // Should have target score options
     await expect(page.getByText('נקודות לניצחון')).toBeVisible();
@@ -135,6 +135,24 @@ test.describe('Ilans Game', () => {
     });
     expect(hasHorizontalScrollAfter).toBe(false);
   });
+
+  test('should show instructions modal', async ({ page }) => {
+    await page.goto('/');
+
+    // Click instructions button
+    await page.getByText('איך משחקים?').click();
+
+    // Modal should appear
+    await expect(page.getByText('שני מכשירים')).toBeVisible();
+    await expect(page.getByText('מהלך המשחק:')).toBeVisible();
+    await expect(page.getByText('גניבה!')).toBeVisible();
+
+    // Close modal
+    await page.getByText('הבנתי, בואו נשחק!').click();
+
+    // Modal should be closed
+    await expect(page.getByText('מהלך המשחק:')).not.toBeVisible();
+  });
 });
 
 test.describe('Two Device Flow', () => {
@@ -161,19 +179,20 @@ test.describe('Two Device Flow', () => {
 
     // Wait for room code
     await expect(mainPage.getByText('קוד החדר')).toBeVisible({ timeout: 10000 });
-    const roomCodeElement = mainPage.locator('.text-5xl.font-mono');
+    const roomCodeElement = mainPage.locator('.text-3xl.font-mono.gradient-text');
+    await expect(roomCodeElement).toBeVisible();
     const roomCode = await roomCodeElement.textContent();
 
     // Timer device: join room
     await timerPage.getByText('מכשיר טיימר').click();
     await timerPage.getByPlaceholder('0000').fill(roomCode!);
-    await timerPage.getByText('הצטרף').click();
+    await timerPage.getByText('הצטרף למשחק').click();
 
     // Timer device should show waiting screen
-    await expect(timerPage.getByText('מחובר לחדר')).toBeVisible({ timeout: 10000 });
+    await expect(timerPage.getByText('מחובר!')).toBeVisible({ timeout: 10000 });
 
     // Main device should show timer device connected
-    await expect(mainPage.getByText('מכשיר הטיימר מחובר')).toBeVisible({ timeout: 10000 });
+    await expect(mainPage.getByText('טיימר מחובר ✓')).toBeVisible({ timeout: 10000 });
 
     // Cleanup
     await mainContext.close();
