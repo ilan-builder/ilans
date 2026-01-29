@@ -305,7 +305,7 @@ export const updateTeamScore = mutation({
 
     const teams = game.teams.map((team) =>
       team.id === args.teamId
-        ? { ...team, score: Math.max(0, args.newScore) }
+        ? { ...team, score: args.newScore }
         : team
     );
 
