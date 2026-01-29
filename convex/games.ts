@@ -178,7 +178,7 @@ export const markSkip = mutation({
     if (!game) throw new Error("משחק לא נמצא");
 
     const teams = [...game.teams];
-    teams[game.currentTeamIndex].score = Math.max(0, teams[game.currentTeamIndex].score - 1);
+    teams[game.currentTeamIndex].score -= 1;
 
     await ctx.db.patch(args.gameId, {
       teams,
@@ -289,5 +289,26 @@ export const resetGame = mutation({
       wordsUsed: [],
       timerEndTime: undefined,
     });
+  },
+});
+
+// Update a team's score manually
+export const updateTeamScore = mutation({
+  args: {
+    gameId: v.id("games"),
+    teamId: v.string(),
+    newScore: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const game = await ctx.db.get(args.gameId);
+    if (!game) throw new Error("משחק לא נמצא");
+
+    const teams = game.teams.map((team) =>
+      team.id === args.teamId
+        ? { ...team, score: Math.max(0, args.newScore) }
+        : team
+    );
+
+    await ctx.db.patch(args.gameId, { teams });
   },
 });

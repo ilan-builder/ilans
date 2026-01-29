@@ -4,6 +4,7 @@ import { api } from "../../../convex/_generated/api";
 import { Game } from "../../types/game";
 import { getRandomWord } from "../../data/hebrewWords";
 import { ScoreBoard } from "../shared/ScoreBoard";
+import { ScoreEditModal } from "../shared/ScoreEditModal";
 
 interface TurnTransitionProps {
   game: Game;
@@ -11,6 +12,7 @@ interface TurnTransitionProps {
 
 export function TurnTransition({ game }: TurnTransitionProps) {
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showScoreEdit, setShowScoreEdit] = useState(false);
   const startTurn = useMutation(api.games.startTurn);
 
   const currentTeam = game.teams[game.currentTeamIndex];
@@ -48,8 +50,14 @@ export function TurnTransition({ game }: TurnTransitionProps) {
         </p>
       </div>
 
-      {/* Bottom button */}
-      <div className="mt-4">
+      {/* Bottom buttons */}
+      <div className="mt-4 space-y-2">
+        <button
+          onClick={() => setShowScoreEdit(true)}
+          className="w-full doodle-btn bg-gray-100 text-gray-700 py-3 text-base"
+        >
+          עריכת ניקוד
+        </button>
         <button
           onClick={handleReady}
           disabled={isProcessing}
@@ -58,6 +66,15 @@ export function TurnTransition({ game }: TurnTransitionProps) {
           🚀 מוכנים? יאללה!
         </button>
       </div>
+
+      {/* Score Edit Modal */}
+      {showScoreEdit && (
+        <ScoreEditModal
+          gameId={game._id}
+          teams={game.teams}
+          onClose={() => setShowScoreEdit(false)}
+        />
+      )}
     </div>
   );
 }
