@@ -64,9 +64,15 @@ export function TimerDisplay({ game }: TimerDisplayProps) {
         <p className="text-2xl font-bold text-indigo-600">{currentTeam.name}</p>
       </div>
 
+      {/* Current word */}
+      <div className="doodle-card p-4 mt-3 text-center">
+        <p className="text-gray-500 text-sm mb-1">המילה</p>
+        <p className="text-3xl font-bold text-gray-800">{game.currentWord || "..."}</p>
+      </div>
+
       {/* Large timer */}
       <div className="flex-1 flex items-center justify-center">
-        <div className={`text-[35vw] font-mono font-bold leading-none transition-all ${
+        <div className={`text-[30vw] font-mono font-bold leading-none transition-all ${
           isVeryLowTime ? "text-red-500 animate-wiggle" :
           isLowTime ? "text-amber-500" :
           "text-gray-800"

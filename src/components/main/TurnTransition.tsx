@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { Game } from "../../types/game";
@@ -9,11 +10,14 @@ interface TurnTransitionProps {
 }
 
 export function TurnTransition({ game }: TurnTransitionProps) {
+  const [isProcessing, setIsProcessing] = useState(false);
   const startTurn = useMutation(api.games.startTurn);
 
   const currentTeam = game.teams[game.currentTeamIndex];
 
   const handleReady = async () => {
+    if (isProcessing) return;
+    setIsProcessing(true);
     const word = getRandomWord(game.difficulty, game.wordsUsed);
     await startTurn({
       gameId: game._id,
@@ -48,6 +52,7 @@ export function TurnTransition({ game }: TurnTransitionProps) {
       <div className="mt-4">
         <button
           onClick={handleReady}
+          disabled={isProcessing}
           className="w-full doodle-btn bg-indigo-500 text-white py-5 text-xl"
         >
           🚀 מוכנים? יאללה!

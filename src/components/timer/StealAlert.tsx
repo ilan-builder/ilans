@@ -43,10 +43,16 @@ export function StealAlert({ game }: StealAlertProps) {
         </p>
       </div>
 
-      {/* Big steal indicator */}
+      {/* The word */}
+      <div className="doodle-card p-4 mx-2 text-center bg-white">
+        <p className="text-gray-500 text-sm mb-1">המילה הייתה</p>
+        <p className="text-4xl font-bold text-indigo-600">{game.currentWord || "---"}</p>
+      </div>
+
+      {/* Steal indicator */}
       <div className="flex-1 flex flex-col items-center justify-center">
-        <div className="text-8xl mb-4 animate-bounce-soft">⚡</div>
-        <div className="text-5xl font-bold text-amber-600 mb-4">
+        <div className="text-6xl mb-3 animate-bounce-soft">⚡</div>
+        <div className="text-4xl font-bold text-amber-600 mb-3">
           גניבה!
         </div>
         <p className="text-lg text-gray-600 text-center">

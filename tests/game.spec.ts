@@ -146,11 +146,11 @@ test.describe('Ilans Game', () => {
     // Wait for setup screen
     await expect(page.getByText('קבוצות')).toBeVisible({ timeout: 10000 });
 
-    // Should have stop game button
-    await expect(page.getByText('עצור משחק')).toBeVisible();
+    // Should have stop game button (shows ✕ with title "סיים משחק")
+    await expect(page.getByTitle('סיים משחק')).toBeVisible();
 
     // Click stop game
-    await page.getByText('עצור משחק').click();
+    await page.getByTitle('סיים משחק').click();
 
     // Should return to role selection
     await expect(page.getByText('מכשיר מסביר')).toBeVisible();

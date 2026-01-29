@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { Game } from "../../types/game";
@@ -7,6 +8,7 @@ interface StealModeProps {
 }
 
 export function StealMode({ game }: StealModeProps) {
+  const [isProcessing, setIsProcessing] = useState(false);
   const awardSteal = useMutation(api.games.awardSteal);
   const skipSteal = useMutation(api.games.skipSteal);
 
@@ -14,10 +16,14 @@ export function StealMode({ game }: StealModeProps) {
   const otherTeams = game.teams.filter((_, i) => i !== game.currentTeamIndex);
 
   const handleSteal = async (teamId: string) => {
+    if (isProcessing) return;
+    setIsProcessing(true);
     await awardSteal({ gameId: game._id, teamId });
   };
 
   const handleNoSteal = async () => {
+    if (isProcessing) return;
+    setIsProcessing(true);
     await skipSteal({ gameId: game._id });
   };
 
@@ -49,6 +55,7 @@ export function StealMode({ game }: StealModeProps) {
             <button
               key={team.id}
               onClick={() => handleSteal(team.id)}
+              disabled={isProcessing}
               className="w-full doodle-btn bg-green-500 text-white py-4 text-lg"
             >
               🎉 {team.name} גנב!
@@ -61,6 +68,7 @@ export function StealMode({ game }: StealModeProps) {
       <div className="mt-4">
         <button
           onClick={handleNoSteal}
+          disabled={isProcessing}
           className="w-full doodle-btn bg-gray-200 text-gray-700 py-4"
         >
           אף אחד לא ניחש 😅
