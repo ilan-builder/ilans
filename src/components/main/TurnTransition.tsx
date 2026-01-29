@@ -6,9 +6,10 @@ import { ScoreBoard } from "../shared/ScoreBoard";
 
 interface TurnTransitionProps {
   game: Game;
+  onStopGame: () => void;
 }
 
-export function TurnTransition({ game }: TurnTransitionProps) {
+export function TurnTransition({ game, onStopGame }: TurnTransitionProps) {
   const startTurn = useMutation(api.games.startTurn);
 
   const currentTeam = game.teams[game.currentTeamIndex];
@@ -22,9 +23,9 @@ export function TurnTransition({ game }: TurnTransitionProps) {
   };
 
   return (
-    <div className="h-screen flex flex-col p-4 safe-area-top safe-area-bottom">
+    <div className="h-screen flex flex-col p-4 bg-white safe-area-top safe-area-bottom">
       {/* Scores */}
-      <div className="glass p-4 mb-4">
+      <div className="doodle-card p-4 mb-4">
         <ScoreBoard
           teams={game.teams}
           currentTeamIndex={game.currentTeamIndex}
@@ -33,24 +34,30 @@ export function TurnTransition({ game }: TurnTransitionProps) {
       </div>
 
       {/* Next team */}
-      <div className="glass flex-1 flex flex-col items-center justify-center">
+      <div className="doodle-card flex-1 flex flex-col items-center justify-center">
         <p className="text-gray-500 text-lg mb-2">עכשיו תור של</p>
-        <div className="text-4xl font-bold text-purple-600 mb-4">
+        <div className="text-4xl font-bold text-indigo-600 mb-4">
           {currentTeam.name}
         </div>
-        <div className="text-5xl animate-bounce-soft mb-4">🎤</div>
+        <div className="text-6xl animate-bounce-soft mb-4">🎤</div>
         <p className="text-gray-500 text-sm text-center px-4">
           העבירו את המכשיר למסביר של הקבוצה
         </p>
       </div>
 
-      {/* Ready button */}
-      <div className="mt-4">
+      {/* Bottom buttons */}
+      <div className="mt-4 space-y-2">
         <button
           onClick={handleReady}
-          className="w-full py-5 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-2xl font-bold text-xl shadow-lg hover:shadow-xl active:scale-[0.98] transition-all"
+          className="w-full doodle-btn bg-indigo-500 text-white py-5 text-xl"
         >
           🚀 מוכנים? יאללה!
+        </button>
+        <button
+          onClick={onStopGame}
+          className="w-full py-2 text-red-500 text-sm hover:text-red-700"
+        >
+          ✕ עצור משחק
         </button>
       </div>
     </div>

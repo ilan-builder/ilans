@@ -24,36 +24,34 @@ export function CreateRoom({ onRoomCreated, onShowInstructions }: CreateRoomProp
   };
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center p-6 safe-area-top safe-area-bottom">
-      <div className="text-center mb-8">
-        <span className="text-6xl mb-4 block animate-bounce-soft">🎤</span>
-        <h1 className="text-3xl font-bold text-white drop-shadow-lg">
+    <div className="h-screen flex flex-col items-center justify-center p-6 bg-white safe-area-top safe-area-bottom">
+      <div className="text-center mb-10">
+        <span className="text-7xl mb-4 block animate-bounce-soft">🎤</span>
+        <h1 className="text-3xl font-bold text-gray-800">
           מכשיר מסביר
         </h1>
-        <p className="text-white/70 mt-2">צרו חדר חדש להתחיל</p>
+        <p className="text-gray-500 mt-2">צרו חדר חדש להתחיל</p>
       </div>
 
       <div className="w-full max-w-xs">
         <button
           onClick={handleCreate}
           disabled={isCreating}
-          className="w-full glass py-5 font-bold text-xl text-gray-800 hover:scale-[1.02] transition-all active:scale-[0.98] disabled:opacity-50"
+          className="w-full doodle-btn bg-indigo-500 text-white py-5 text-xl"
         >
           {isCreating ? (
             <span className="flex items-center justify-center gap-2">
               <span className="animate-spin">⏳</span> יוצר חדר...
             </span>
           ) : (
-            <span className="flex items-center justify-center gap-2">
-              <span>✨</span> צור משחק חדש
-            </span>
+            <span>✨ צור משחק חדש</span>
           )}
         </button>
       </div>
 
       <button
         onClick={onShowInstructions}
-        className="mt-8 flex items-center gap-2 text-white/90 hover:text-white transition-colors"
+        className="mt-10 flex items-center gap-2 text-gray-500 hover:text-gray-700 transition-colors"
       >
         <span className="text-xl">❓</span>
         <span className="underline underline-offset-4">איך משחקים?</span>

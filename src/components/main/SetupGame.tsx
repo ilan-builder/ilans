@@ -10,6 +10,7 @@ interface SetupGameProps {
   timerDeviceJoined: boolean;
   onSetupComplete: () => void;
   onShowInstructions: () => void;
+  onStopGame: () => void;
 }
 
 interface TeamInput {
@@ -17,7 +18,7 @@ interface TeamInput {
   name: string;
 }
 
-export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructions }: SetupGameProps) {
+export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructions, onStopGame }: SetupGameProps) {
   const setupTeams = useMutation(api.games.setupTeams);
   const [teams, setTeams] = useState<TeamInput[]>([
     { id: "1", name: "" },
@@ -69,11 +70,11 @@ export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructi
   };
 
   return (
-    <div className="h-screen flex flex-col p-4 safe-area-top safe-area-bottom overflow-hidden">
+    <div className="h-screen flex flex-col p-4 bg-white safe-area-top safe-area-bottom">
       {/* Room Code Header */}
-      <div className="glass p-4 mb-4 text-center">
+      <div className="doodle-card p-4 mb-4 text-center">
         <p className="text-gray-500 text-xs mb-1">קוד החדר</p>
-        <div className="text-3xl font-mono font-bold tracking-widest gradient-text">
+        <div className="text-3xl font-mono font-bold gradient-text tracking-widest">
           {roomCode}
         </div>
         <div className={`mt-2 flex items-center justify-center gap-2 text-sm ${
@@ -87,12 +88,10 @@ export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructi
       </div>
 
       {/* Settings */}
-      <div className="glass flex-1 p-4 overflow-y-auto">
+      <div className="doodle-card flex-1 p-4 overflow-y-auto">
         {/* Teams */}
-        <div className="mb-4">
-          <h2 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
-            <span>👥</span> קבוצות
-          </h2>
+        <div className="mb-5">
+          <h2 className="font-bold text-gray-800 mb-2">👥 קבוצות</h2>
           <div className="space-y-2">
             {teams.map((team, index) => (
               <div key={team.id} className="flex gap-2">
@@ -101,12 +100,12 @@ export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructi
                   value={team.name}
                   onChange={(e) => updateTeamName(index, e.target.value)}
                   placeholder={`קבוצה ${index + 1}`}
-                  className="flex-1 px-4 py-3 bg-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400 text-gray-800"
+                  className="flex-1 doodle-input"
                 />
                 {teams.length > 2 && (
                   <button
                     onClick={() => removeTeam(index)}
-                    className="px-3 bg-red-100 text-red-600 rounded-xl hover:bg-red-200 transition-colors"
+                    className="px-4 doodle-btn bg-red-100 text-red-600"
                   >
                     ✕
                   </button>
@@ -117,7 +116,7 @@ export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructi
           {teams.length < 4 && (
             <button
               onClick={addTeam}
-              className="mt-2 w-full py-2 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 hover:border-purple-400 hover:text-purple-600 transition-colors text-sm"
+              className="mt-2 w-full py-2 border-3 border-dashed border-gray-300 rounded-xl text-gray-500 hover:border-indigo-400 hover:text-indigo-600 transition-colors text-sm"
             >
               + הוסף קבוצה
             </button>
@@ -125,19 +124,17 @@ export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructi
         </div>
 
         {/* Duration */}
-        <div className="mb-4">
-          <h2 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
-            <span>⏱️</span> משך סיבוב
-          </h2>
+        <div className="mb-5">
+          <h2 className="font-bold text-gray-800 mb-2">⏱️ משך סיבוב</h2>
           <div className="flex gap-2">
             {[30, 45, 60, 90].map((duration) => (
               <button
                 key={duration}
                 onClick={() => setRoundDuration(duration)}
-                className={`flex-1 py-2 rounded-xl font-medium text-sm transition-all ${
+                className={`flex-1 py-2 rounded-xl font-bold text-sm border-3 transition-all ${
                   roundDuration === duration
-                    ? "bg-purple-500 text-white shadow-md"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    ? "bg-indigo-500 text-white border-indigo-600 shadow-md"
+                    : "bg-white text-gray-700 border-gray-300 hover:border-indigo-400"
                 }`}
               >
                 {duration}ש'
@@ -147,10 +144,8 @@ export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructi
         </div>
 
         {/* Difficulty */}
-        <div className="mb-4">
-          <h2 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
-            <span>🎯</span> רמת קושי
-          </h2>
+        <div className="mb-5">
+          <h2 className="font-bold text-gray-800 mb-2">🎯 רמת קושי</h2>
           <div className="flex gap-2">
             {[
               { value: "easy" as Difficulty, label: "קל", emoji: "😊" },
@@ -160,10 +155,10 @@ export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructi
               <button
                 key={option.value}
                 onClick={() => setDifficulty(option.value)}
-                className={`flex-1 py-2 rounded-xl font-medium text-sm transition-all ${
+                className={`flex-1 py-2 rounded-xl font-bold text-sm border-3 transition-all ${
                   difficulty === option.value
-                    ? "bg-purple-500 text-white shadow-md"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    ? "bg-indigo-500 text-white border-indigo-600 shadow-md"
+                    : "bg-white text-gray-700 border-gray-300 hover:border-indigo-400"
                 }`}
               >
                 {option.emoji} {option.label}
@@ -173,19 +168,17 @@ export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructi
         </div>
 
         {/* Target Score */}
-        <div className="mb-2">
-          <h2 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
-            <span>🏆</span> נקודות לניצחון
-          </h2>
+        <div>
+          <h2 className="font-bold text-gray-800 mb-2">🏆 נקודות לניצחון</h2>
           <div className="flex gap-2">
             {[30, 50, 75, 100].map((score) => (
               <button
                 key={score}
                 onClick={() => setTargetScore(score)}
-                className={`flex-1 py-2 rounded-xl font-medium text-sm transition-all ${
+                className={`flex-1 py-2 rounded-xl font-bold text-sm border-3 transition-all ${
                   targetScore === score
-                    ? "bg-purple-500 text-white shadow-md"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    ? "bg-indigo-500 text-white border-indigo-600 shadow-md"
+                    : "bg-white text-gray-700 border-gray-300 hover:border-indigo-400"
                 }`}
               >
                 {score}
@@ -200,16 +193,24 @@ export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructi
         <button
           onClick={handleSubmit}
           disabled={isSubmitting || !timerDeviceJoined}
-          className="w-full py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full doodle-btn bg-green-500 text-white py-4 text-xl"
         >
           {isSubmitting ? "מתחיל..." : !timerDeviceJoined ? "ממתין לטיימר..." : "🚀 התחל משחק!"}
         </button>
-        <button
-          onClick={onShowInstructions}
-          className="w-full py-2 text-gray-600 text-sm"
-        >
-          ❓ איך משחקים?
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={onShowInstructions}
+            className="flex-1 py-2 text-gray-500 text-sm hover:text-gray-700"
+          >
+            ❓ הוראות
+          </button>
+          <button
+            onClick={onStopGame}
+            className="flex-1 py-2 text-red-500 text-sm hover:text-red-700"
+          >
+            ✕ עצור משחק
+          </button>
+        </div>
       </div>
     </div>
   );

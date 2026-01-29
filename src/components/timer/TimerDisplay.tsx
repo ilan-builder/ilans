@@ -4,9 +4,10 @@ import { ScoreBoard } from "../shared/ScoreBoard";
 
 interface TimerDisplayProps {
   game: Game;
+  onStopGame: () => void;
 }
 
-export function TimerDisplay({ game }: TimerDisplayProps) {
+export function TimerDisplay({ game, onStopGame }: TimerDisplayProps) {
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const lastWarningTime = useRef<number | null>(null);
 
@@ -54,37 +55,43 @@ export function TimerDisplay({ game }: TimerDisplayProps) {
     return seconds.toString();
   };
 
-  const bgClass = isVeryLowTime
-    ? "bg-gradient-to-b from-red-500 to-rose-600"
-    : isLowTime
-    ? "bg-gradient-to-b from-amber-400 to-orange-500"
-    : "bg-gradient-to-b from-blue-500 to-purple-600";
-
   return (
-    <div className={`h-screen flex flex-col p-4 safe-area-top safe-area-bottom transition-all duration-300 ${bgClass}`}>
+    <div className={`h-screen flex flex-col p-4 safe-area-top safe-area-bottom transition-colors duration-300 ${
+      isVeryLowTime ? "bg-red-50" : isLowTime ? "bg-amber-50" : "bg-white"
+    }`}>
       {/* Current team */}
-      <div className="glass-dark p-3 text-center">
-        <p className="text-white/70 text-sm">תור של</p>
-        <p className="text-2xl font-bold text-white">{currentTeam.name}</p>
+      <div className="doodle-card p-3 text-center">
+        <p className="text-gray-500 text-sm">תור של</p>
+        <p className="text-2xl font-bold text-indigo-600">{currentTeam.name}</p>
       </div>
 
-      {/* Large timer - seconds only */}
+      {/* Large timer */}
       <div className="flex-1 flex items-center justify-center">
-        <div className={`text-[35vw] sm:text-[40vw] font-mono font-bold leading-none text-white drop-shadow-lg transition-all ${
-          isVeryLowTime ? "animate-pulse scale-105" : ""
+        <div className={`text-[35vw] font-mono font-bold leading-none transition-all ${
+          isVeryLowTime ? "text-red-500 animate-wiggle" :
+          isLowTime ? "text-amber-500" :
+          "text-gray-800"
         }`}>
           {formatTime(timeLeft)}
         </div>
       </div>
 
       {/* Score board */}
-      <div className="glass p-4">
+      <div className="doodle-card p-4">
         <ScoreBoard
           teams={game.teams}
           currentTeamIndex={game.currentTeamIndex}
           targetScore={game.targetScore}
         />
       </div>
+
+      {/* Stop button */}
+      <button
+        onClick={onStopGame}
+        className="mt-3 py-2 text-red-500 text-sm hover:text-red-700"
+      >
+        ✕ עצור משחק
+      </button>
     </div>
   );
 }

@@ -4,9 +4,10 @@ import { Game } from "../../types/game";
 
 interface StealModeProps {
   game: Game;
+  onStopGame: () => void;
 }
 
-export function StealMode({ game }: StealModeProps) {
+export function StealMode({ game, onStopGame }: StealModeProps) {
   const awardSteal = useMutation(api.games.awardSteal);
   const skipSteal = useMutation(api.games.skipSteal);
 
@@ -22,21 +23,21 @@ export function StealMode({ game }: StealModeProps) {
   };
 
   return (
-    <div className="h-screen flex flex-col p-4 safe-area-top safe-area-bottom bg-gradient-to-b from-amber-400 to-orange-500">
+    <div className="h-screen flex flex-col p-4 bg-amber-50 safe-area-top safe-area-bottom">
       {/* Header */}
       <div className="text-center py-4">
-        <div className="text-4xl font-bold text-white animate-flash mb-1">
+        <div className="text-4xl font-bold text-amber-600 animate-wiggle mb-1">
           ⚡ גניבה!
         </div>
-        <p className="text-white/90">
+        <p className="text-amber-700">
           הזמן של {currentTeam.name} נגמר
         </p>
       </div>
 
       {/* The word */}
-      <div className="glass flex-1 flex flex-col items-center justify-center mx-2">
+      <div className="doodle-card flex-1 flex flex-col items-center justify-center mx-2 bg-white">
         <p className="text-gray-500 text-sm mb-2">המילה הייתה</p>
-        <div className="text-5xl font-bold text-purple-600 mb-6">
+        <div className="text-5xl font-bold text-indigo-600 mb-6">
           {game.currentWord || "---"}
         </div>
         <p className="text-gray-600 text-center mb-4">
@@ -49,7 +50,7 @@ export function StealMode({ game }: StealModeProps) {
             <button
               key={team.id}
               onClick={() => handleSteal(team.id)}
-              className="w-full py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold text-lg shadow-lg active:scale-[0.98] transition-all"
+              className="w-full doodle-btn bg-green-500 text-white py-4 text-lg"
             >
               🎉 {team.name} גנב!
             </button>
@@ -57,13 +58,19 @@ export function StealMode({ game }: StealModeProps) {
         </div>
       </div>
 
-      {/* No steal button */}
-      <div className="mt-4">
+      {/* Bottom buttons */}
+      <div className="mt-4 space-y-2">
         <button
           onClick={handleNoSteal}
-          className="w-full py-4 glass text-gray-700 rounded-xl font-medium"
+          className="w-full doodle-btn bg-gray-200 text-gray-700 py-4"
         >
           אף אחד לא ניחש 😅
+        </button>
+        <button
+          onClick={onStopGame}
+          className="w-full py-2 text-red-500 text-sm hover:text-red-700"
+        >
+          ✕ עצור משחק
         </button>
       </div>
     </div>

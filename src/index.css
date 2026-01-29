@@ -20,14 +20,13 @@ html, body, #root {
 }
 
 body {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #fafafa;
   color: #1a1a2e;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior: none;
 }
 
-/* Disable text selection on game elements */
 button, .no-select {
   -webkit-user-select: none;
   user-select: none;
@@ -38,12 +37,10 @@ button {
   touch-action: manipulation;
 }
 
-/* RTL text direction for Hebrew */
 html[dir="rtl"] {
   direction: rtl;
 }
 
-/* Hide scrollbar */
 ::-webkit-scrollbar {
   display: none;
 }
@@ -59,41 +56,91 @@ html[dir="rtl"] {
   50% { opacity: 0.4; }
 }
 
-@keyframes bounce-soft {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
 }
 
-@keyframes pulse-ring {
-  0% { transform: scale(0.95); opacity: 1; }
-  100% { transform: scale(1.1); opacity: 0; }
+@keyframes bounce-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
 .animate-flash {
   animation: flash 0.5s ease-in-out infinite;
 }
 
+.animate-wiggle {
+  animation: wiggle 0.3s ease-in-out infinite;
+}
+
 .animate-bounce-soft {
   animation: bounce-soft 2s ease-in-out infinite;
 }
 
-/* Glass morphism card */
-.glass {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+/* Doodle style card */
+.doodle-card {
+  background: white;
+  border: 3px solid #1a1a2e;
+  border-radius: 20px;
+  box-shadow: 4px 4px 0px #1a1a2e;
+  transition: all 0.2s ease;
 }
 
-.glass-dark {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  border-radius: 24px;
+.doodle-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #1a1a2e;
+}
+
+.doodle-card:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #1a1a2e;
+}
+
+/* Doodle button */
+.doodle-btn {
+  border: 3px solid #1a1a2e;
+  border-radius: 16px;
+  box-shadow: 3px 3px 0px #1a1a2e;
+  font-weight: 700;
+  transition: all 0.15s ease;
+}
+
+.doodle-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #1a1a2e;
+}
+
+.doodle-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #1a1a2e;
+}
+
+.doodle-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 3px 3px 0px #1a1a2e;
+}
+
+/* Doodle input */
+.doodle-input {
+  border: 3px solid #1a1a2e;
+  border-radius: 12px;
+  background: white;
+  padding: 12px 16px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.doodle-input:focus {
+  outline: none;
+  box-shadow: 3px 3px 0px #1a1a2e;
 }
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

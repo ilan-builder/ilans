@@ -31,7 +31,6 @@ function App() {
   const game = useGameSync(gameId);
   const resetGame = useMutation(api.games.resetGame);
 
-  // Persist device role and game info
   useEffect(() => {
     const savedRole = localStorage.getItem("ilans-role") as DeviceRole;
     const savedGameId = localStorage.getItem("ilans-gameId");
@@ -71,24 +70,24 @@ function App() {
   // Role selection screen
   if (!deviceRole) {
     return (
-      <div className="h-screen flex flex-col items-center justify-center p-6 safe-area-top safe-area-bottom">
+      <div className="h-screen flex flex-col items-center justify-center p-6 bg-white safe-area-top safe-area-bottom">
         {showInstructions && <Instructions onClose={() => setShowInstructions(false)} />}
 
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold text-white mb-2 drop-shadow-lg">
+        <div className="text-center mb-10">
+          <h1 className="text-5xl font-bold text-gray-800 mb-2">
             אילנס 🎯
           </h1>
-          <p className="text-white/80 text-lg">משחק מילים מטורף!</p>
+          <p className="text-gray-500 text-lg">משחק מילים מטורף!</p>
         </div>
 
         <div className="w-full max-w-xs space-y-4">
           <button
             onClick={() => setDeviceRole("main")}
-            className="w-full glass p-5 hover:scale-[1.02] transition-all active:scale-[0.98]"
+            className="w-full doodle-card p-5 text-right"
           >
             <div className="flex items-center gap-4">
               <span className="text-4xl">🎤</span>
-              <div className="text-right">
+              <div>
                 <div className="text-xl font-bold text-gray-800">מכשיר מסביר</div>
                 <div className="text-gray-500 text-sm">מציג מילים, שולט במשחק</div>
               </div>
@@ -97,11 +96,11 @@ function App() {
 
           <button
             onClick={() => setDeviceRole("timer")}
-            className="w-full glass p-5 hover:scale-[1.02] transition-all active:scale-[0.98]"
+            className="w-full doodle-card p-5 text-right"
           >
             <div className="flex items-center gap-4">
               <span className="text-4xl">⏱️</span>
-              <div className="text-right">
+              <div>
                 <div className="text-xl font-bold text-gray-800">מכשיר טיימר</div>
                 <div className="text-gray-500 text-sm">מציג זמן וניקוד לכולם</div>
               </div>
@@ -111,7 +110,7 @@ function App() {
 
         <button
           onClick={() => setShowInstructions(true)}
-          className="mt-8 flex items-center gap-2 text-white/90 hover:text-white transition-colors"
+          className="mt-10 flex items-center gap-2 text-gray-500 hover:text-gray-700 transition-colors"
         >
           <span className="text-xl">❓</span>
           <span className="underline underline-offset-4">איך משחקים?</span>
@@ -154,21 +153,22 @@ function App() {
             timerDeviceJoined={game.timerDeviceJoined}
             onSetupComplete={() => {}}
             onShowInstructions={() => setShowInstructions(true)}
+            onStopGame={clearSession}
           />
         </>
       );
     }
 
     if (game.status === "playing") {
-      return <PlayTurn game={game} />;
+      return <PlayTurn game={game} onStopGame={clearSession} />;
     }
 
     if (game.status === "stealing") {
-      return <StealMode game={game} />;
+      return <StealMode game={game} onStopGame={clearSession} />;
     }
 
     if (game.status === "transition") {
-      return <TurnTransition game={game} />;
+      return <TurnTransition game={game} onStopGame={clearSession} />;
     }
   }
 
@@ -197,26 +197,26 @@ function App() {
     }
 
     if (game.status === "waiting" || game.status === "setup" || game.status === "transition") {
-      return <WaitingScreen game={game} />;
+      return <WaitingScreen game={game} onStopGame={clearSession} />;
     }
 
     if (game.status === "playing") {
-      return <TimerDisplay game={game} />;
+      return <TimerDisplay game={game} onStopGame={clearSession} />;
     }
 
     if (game.status === "stealing") {
-      return <StealAlert game={game} />;
+      return <StealAlert game={game} onStopGame={clearSession} />;
     }
   }
 
   // Fallback
   return (
-    <div className="h-screen flex items-center justify-center">
-      <div className="glass p-8 text-center">
+    <div className="h-screen flex items-center justify-center bg-white">
+      <div className="doodle-card p-8 text-center">
         <p className="text-xl mb-4 text-gray-700">טוען...</p>
         <button
           onClick={clearSession}
-          className="text-purple-600 underline"
+          className="text-indigo-600 underline"
         >
           התחל מחדש
         </button>

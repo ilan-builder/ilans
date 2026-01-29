@@ -7,9 +7,10 @@ import { ScoreBoard } from "../shared/ScoreBoard";
 
 interface PlayTurnProps {
   game: Game;
+  onStopGame: () => void;
 }
 
-export function PlayTurn({ game }: PlayTurnProps) {
+export function PlayTurn({ game, onStopGame }: PlayTurnProps) {
   const markCorrect = useMutation(api.games.markCorrect);
   const markSkip = useMutation(api.games.markSkip);
   const endTurn = useMutation(api.games.endTurn);
@@ -72,15 +73,15 @@ export function PlayTurn({ game }: PlayTurnProps) {
   const isLowTime = timeLeft !== null && timeLeft <= 10;
 
   return (
-    <div className="h-screen flex flex-col p-4 safe-area-top safe-area-bottom">
+    <div className="h-screen flex flex-col p-4 bg-white safe-area-top safe-area-bottom">
       {/* Header */}
-      <div className="glass p-3 mb-3 flex justify-between items-center">
+      <div className="doodle-card p-3 mb-3 flex justify-between items-center">
         <div>
           <p className="text-gray-500 text-xs">תור של</p>
-          <p className="font-bold text-purple-600">{currentTeam.name}</p>
+          <p className="font-bold text-indigo-600">{currentTeam.name}</p>
         </div>
         <div className={`text-3xl font-mono font-bold ${
-          isLowTime ? "text-red-500 animate-pulse" : "text-gray-800"
+          isLowTime ? "text-red-500 animate-wiggle" : "text-gray-800"
         }`}>
           {timeLeft ?? "--"}
         </div>
@@ -97,9 +98,9 @@ export function PlayTurn({ game }: PlayTurnProps) {
       </div>
 
       {/* Word display */}
-      <div className="glass flex-1 flex items-center justify-center">
+      <div className="doodle-card flex-1 flex items-center justify-center">
         <div className="text-center p-4">
-          <p className="text-gray-500 text-sm mb-2">המילה היא</p>
+          <p className="text-gray-500 text-sm mb-3">המילה היא</p>
           <div className="text-5xl font-bold text-gray-800 leading-tight">
             {game.currentWord || "..."}
           </div>
@@ -112,24 +113,32 @@ export function PlayTurn({ game }: PlayTurnProps) {
           <button
             onClick={handleSkip}
             disabled={isProcessing}
-            className="flex-1 py-5 bg-gradient-to-r from-red-500 to-rose-500 text-white rounded-2xl font-bold text-xl shadow-lg active:scale-[0.98] transition-all disabled:opacity-50"
+            className="flex-1 doodle-btn bg-red-500 text-white py-5 text-xl"
           >
             ✕ דילוג
           </button>
           <button
             onClick={handleCorrect}
             disabled={isProcessing}
-            className="flex-1 py-5 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-2xl font-bold text-xl shadow-lg active:scale-[0.98] transition-all disabled:opacity-50"
+            className="flex-1 doodle-btn bg-green-500 text-white py-5 text-xl"
           >
             ✓ נכון!
           </button>
         </div>
-        <button
-          onClick={handleEndTurn}
-          className="w-full py-2 text-gray-500 text-sm"
-        >
-          סיים תור מוקדם
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={handleEndTurn}
+            className="flex-1 py-2 text-gray-500 text-sm hover:text-gray-700"
+          >
+            סיים תור מוקדם
+          </button>
+          <button
+            onClick={onStopGame}
+            className="flex-1 py-2 text-red-500 text-sm hover:text-red-700"
+          >
+            ✕ עצור משחק
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -39,17 +39,17 @@ export function JoinRoom({ onJoined, onShowInstructions }: JoinRoomProps) {
   };
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center p-6 safe-area-top safe-area-bottom">
-      <div className="text-center mb-8">
-        <span className="text-6xl mb-4 block animate-bounce-soft">⏱️</span>
-        <h1 className="text-3xl font-bold text-white drop-shadow-lg">
+    <div className="h-screen flex flex-col items-center justify-center p-6 bg-white safe-area-top safe-area-bottom">
+      <div className="text-center mb-10">
+        <span className="text-7xl mb-4 block animate-bounce-soft">⏱️</span>
+        <h1 className="text-3xl font-bold text-gray-800">
           מכשיר טיימר
         </h1>
-        <p className="text-white/70 mt-2">הכניסו את קוד החדר</p>
+        <p className="text-gray-500 mt-2">הכניסו את קוד החדר</p>
       </div>
 
       <div className="w-full max-w-xs">
-        <div className="glass p-6 mb-4">
+        <div className="doodle-card p-6 mb-4">
           <input
             type="text"
             inputMode="numeric"
@@ -57,7 +57,7 @@ export function JoinRoom({ onJoined, onShowInstructions }: JoinRoomProps) {
             value={code}
             onChange={(e) => handleCodeChange(e.target.value)}
             placeholder="0000"
-            className="w-full text-center text-4xl font-mono tracking-[0.3em] py-4 bg-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400 text-gray-800 placeholder-gray-400"
+            className="w-full text-center text-4xl font-mono tracking-[0.3em] py-4 doodle-input"
             maxLength={4}
           />
           {error && (
@@ -68,23 +68,21 @@ export function JoinRoom({ onJoined, onShowInstructions }: JoinRoomProps) {
         <button
           onClick={handleJoin}
           disabled={code.length !== 4 || isJoining}
-          className="w-full glass py-4 font-bold text-xl text-gray-800 hover:scale-[1.02] transition-all active:scale-[0.98] disabled:opacity-50"
+          className="w-full doodle-btn bg-indigo-500 text-white py-4 text-xl"
         >
           {isJoining ? (
             <span className="flex items-center justify-center gap-2">
               <span className="animate-spin">⏳</span> מתחבר...
             </span>
           ) : (
-            <span className="flex items-center justify-center gap-2">
-              <span>🔗</span> הצטרף למשחק
-            </span>
+            <span>🔗 הצטרף למשחק</span>
           )}
         </button>
       </div>
 
       <button
         onClick={onShowInstructions}
-        className="mt-8 flex items-center gap-2 text-white/90 hover:text-white transition-colors"
+        className="mt-10 flex items-center gap-2 text-gray-500 hover:text-gray-700 transition-colors"
       >
         <span className="text-xl">❓</span>
         <span className="underline underline-offset-4">איך משחקים?</span>

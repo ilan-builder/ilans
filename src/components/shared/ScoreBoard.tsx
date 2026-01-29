@@ -14,13 +14,13 @@ export function ScoreBoard({ teams, currentTeamIndex, targetScore, compact = fal
         {teams.map((team, index) => (
           <div
             key={team.id}
-            className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
+            className={`px-3 py-1.5 rounded-full text-sm font-bold border-2 transition-all ${
               index === currentTeamIndex
-                ? "bg-purple-500 text-white shadow-md"
-                : "bg-white/80 text-gray-700"
+                ? "bg-indigo-500 text-white border-indigo-600"
+                : "bg-white text-gray-700 border-gray-300"
             }`}
           >
-            {team.name}: <span className="font-bold">{team.score}</span>
+            {team.name}: {team.score}
           </div>
         ))}
       </div>
@@ -34,17 +34,17 @@ export function ScoreBoard({ teams, currentTeamIndex, targetScore, compact = fal
         {teams.map((team, index) => (
           <div
             key={team.id}
-            className={`flex items-center justify-between p-3 rounded-xl transition-all ${
+            className={`flex items-center justify-between p-3 rounded-xl border-3 transition-all ${
               index === currentTeamIndex
-                ? "bg-purple-100 ring-2 ring-purple-400"
-                : "bg-gray-50"
+                ? "bg-indigo-50 border-indigo-400"
+                : "bg-gray-50 border-gray-200"
             }`}
           >
-            <span className={`font-medium ${index === currentTeamIndex ? "text-purple-700" : "text-gray-700"}`}>
+            <span className={`font-bold ${index === currentTeamIndex ? "text-indigo-700" : "text-gray-700"}`}>
               {team.name}
             </span>
             <div className="flex items-center gap-3">
-              <div className="w-24 bg-gray-200 rounded-full h-2 overflow-hidden">
+              <div className="w-20 bg-gray-200 rounded-full h-2 overflow-hidden border border-gray-300">
                 <div
                   className="h-full bg-gradient-to-r from-green-400 to-emerald-500 transition-all duration-500"
                   style={{ width: `${Math.min(100, (team.score / targetScore) * 100)}%` }}
