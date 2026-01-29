@@ -13,9 +13,9 @@ export function StealMode({ game }: StealModeProps) {
   const skipSteal = useMutation(api.games.skipSteal);
 
   const currentTeam = game.teams[game.currentTeamIndex];
-  const otherTeams = game.teams.filter((_, i) => i !== game.currentTeamIndex);
+  const allTeams = game.teams; // Show all teams, not just others
 
-  const handleSteal = async (teamId: string) => {
+  const handleScore = async (teamId: string) => {
     if (isProcessing) return;
     setIsProcessing(true);
     await awardSteal({ gameId: game._id, teamId });
@@ -51,16 +51,21 @@ export function StealMode({ game }: StealModeProps) {
 
         {/* Team buttons */}
         <div className="w-full max-w-xs space-y-2">
-          {otherTeams.map((team) => (
-            <button
-              key={team.id}
-              onClick={() => handleSteal(team.id)}
-              disabled={isProcessing}
-              className="w-full doodle-btn bg-green-500 text-white py-4 text-lg"
-            >
-              🎉 {team.name} גנב!
-            </button>
-          ))}
+          {allTeams.map((team) => {
+            const isCurrentTeam = team.id === currentTeam.id;
+            return (
+              <button
+                key={team.id}
+                onClick={() => handleScore(team.id)}
+                disabled={isProcessing}
+                className={`w-full doodle-btn text-white py-4 text-lg ${
+                  isCurrentTeam ? "bg-blue-500" : "bg-green-500"
+                }`}
+              >
+                {isCurrentTeam ? `✓ ${team.name} ניחשו!` : `🎉 ${team.name} גנב!`}
+              </button>
+            );
+          })}
         </div>
       </div>
 
