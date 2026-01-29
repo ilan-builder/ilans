@@ -35,19 +35,19 @@ export function StealAlert({ game }: StealAlertProps) {
   return (
     <div className="min-h-screen bg-red-900 flex flex-col text-white">
       {/* STEAL MODE header */}
-      <div className="p-6 text-center">
-        <div className="text-6xl font-bold text-red-400 animate-flash mb-2">
+      <div className="p-4 sm:p-6 text-center">
+        <div className="text-4xl sm:text-6xl font-bold text-red-400 animate-flash mb-2">
           נגמר הזמן!
         </div>
-        <p className="text-2xl text-red-200">
+        <p className="text-xl sm:text-2xl text-red-200">
           הזמן של {currentTeam.name} נגמר
         </p>
       </div>
 
       {/* Big steal indicator */}
-      <div className="flex-1 flex flex-col items-center justify-center p-6">
-        <div className="text-9xl mb-6">⏰</div>
-        <div className="text-5xl font-bold text-yellow-400 animate-pulse mb-4">
+      <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-6">
+        <div className="text-7xl sm:text-9xl mb-4 sm:mb-6">⏰</div>
+        <div className="text-3xl sm:text-5xl font-bold text-yellow-400 animate-pulse mb-4">
           גניבה!
         </div>
         <p className="text-xl text-gray-300 text-center">

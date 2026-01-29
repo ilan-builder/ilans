@@ -71,9 +71,9 @@ export function TimerDisplay({ game }: TimerDisplayProps) {
       </div>
 
       {/* Large timer */}
-      <div className="flex-1 flex items-center justify-center">
-        <div className={`text-[12rem] font-mono font-bold leading-none transition-all ${
-          isVeryLowTime ? "text-red-400 animate-pulse-fast scale-110" :
+      <div className="flex-1 flex items-center justify-center overflow-hidden px-4">
+        <div className={`text-[20vw] sm:text-[25vw] md:text-[12rem] font-mono font-bold leading-none transition-all ${
+          isVeryLowTime ? "text-red-400 animate-pulse-fast scale-105" :
           isLowTime ? "text-orange-400 animate-pulse" :
           "text-white"
         }`}>
