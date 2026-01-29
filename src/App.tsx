@@ -1,9 +1,41 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { Id } from "../convex/_generated/dataModel";
 import { DeviceRole } from "./types/game";
 import { useGameSync } from "./hooks/useGameSync";
+
+// Keep screen awake during game session
+function useWakeLock(enabled: boolean) {
+  const wakeLockRef = useRef<WakeLockSentinel | null>(null);
+
+  useEffect(() => {
+    if (!enabled || !("wakeLock" in navigator)) return;
+
+    const requestWakeLock = async () => {
+      try {
+        wakeLockRef.current = await navigator.wakeLock.request("screen");
+      } catch {
+        // Wake lock request failed (e.g., low battery mode)
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        requestWakeLock();
+      }
+    };
+
+    requestWakeLock();
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      wakeLockRef.current?.release();
+      wakeLockRef.current = null;
+    };
+  }, [enabled]);
+}
 
 // Main device components
 import { CreateRoom } from "./components/main/CreateRoom";
@@ -31,6 +63,9 @@ function App() {
 
   const game = useGameSync(gameId);
   const resetGame = useMutation(api.games.resetGame);
+
+  // Keep screen awake during game session
+  useWakeLock(!!gameId);
 
   useEffect(() => {
     const savedRole = localStorage.getItem("ilans-role") as DeviceRole;
