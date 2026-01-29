@@ -8,9 +8,21 @@ interface TimerDisplayProps {
 
 export function TimerDisplay({ game }: TimerDisplayProps) {
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
+  const [previousWord, setPreviousWord] = useState<string | null>(null);
+  const lastWordRef = useRef<string | undefined>(undefined);
   const lastWarningTime = useRef<number | null>(null);
 
   const currentTeam = game.teams[game.currentTeamIndex];
+
+  // Track word changes - when word changes, show the previous one
+  useEffect(() => {
+    if (game.currentWord && game.currentWord !== lastWordRef.current) {
+      if (lastWordRef.current) {
+        setPreviousWord(lastWordRef.current);
+      }
+      lastWordRef.current = game.currentWord;
+    }
+  }, [game.currentWord]);
 
   useEffect(() => {
     if (!game.timerEndTime) {
@@ -64,11 +76,13 @@ export function TimerDisplay({ game }: TimerDisplayProps) {
         <p className="text-2xl font-bold text-indigo-600">{currentTeam.name}</p>
       </div>
 
-      {/* Current word */}
-      <div className="doodle-card p-4 mt-3 text-center">
-        <p className="text-gray-500 text-sm mb-1">המילה</p>
-        <p className="text-3xl font-bold text-gray-800">{game.currentWord || "..."}</p>
-      </div>
+      {/* Previous word - shows after correct/skip */}
+      {previousWord && (
+        <div className="doodle-card p-4 mt-3 text-center bg-green-50 border-green-300">
+          <p className="text-gray-500 text-sm mb-1">המילה הקודמת</p>
+          <p className="text-3xl font-bold text-green-600">{previousWord}</p>
+        </div>
+      )}
 
       {/* Large timer */}
       <div className="flex-1 flex items-center justify-center">

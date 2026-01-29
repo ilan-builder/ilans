@@ -225,10 +225,10 @@ test.describe('Two Device Flow', () => {
     await mainPage.getByText('מוכנים? יאללה!').click();
 
     // Wait for timer to appear on timer device
-    await expect(timerPage.locator('.text-\\[35vw\\]')).toBeVisible({ timeout: 10000 });
+    await expect(timerPage.locator('.text-\\[30vw\\]')).toBeVisible({ timeout: 10000 });
 
     // Get the timer text
-    const timerText = await timerPage.locator('.text-\\[35vw\\]').textContent();
+    const timerText = await timerPage.locator('.text-\\[30vw\\]').textContent();
 
     // Timer should be just a number (no colon for MM:SS format)
     expect(timerText).toMatch(/^\d{1,2}$/);
