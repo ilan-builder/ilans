@@ -12,7 +12,7 @@ test.describe('Ilans Game', () => {
     await page.goto('/');
 
     // Check title is visible (with emoji)
-    await expect(page.getByText('אילנס 🎯')).toBeVisible();
+    await expect(page.getByText('אליקו')).toBeVisible();
     await expect(page.getByText('משחק מילים מטורף!')).toBeVisible();
 
     // Check both role buttons are visible

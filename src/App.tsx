@@ -113,7 +113,7 @@ function App() {
 
         <div className="text-center mb-10">
           <h1 className="text-5xl font-bold text-gray-800 mb-2 flex items-center justify-center gap-3">
-            אילנס <Icon icon={Target} size="xl" className="text-indigo-500" />
+            אליקו <Icon icon={Target} size="xl" className="text-indigo-500" />
           </h1>
           <p className="text-gray-500 text-lg">משחק מילים מטורף!</p>
         </div>
@@ -146,7 +146,7 @@ function App() {
 
         <div className="text-center mb-10">
           <h1 className="text-5xl font-bold text-gray-800 mb-2 flex items-center justify-center gap-3">
-            אילנס <Icon icon={Target} size="xl" className="text-indigo-500" />
+            אליקו <Icon icon={Target} size="xl" className="text-indigo-500" />
           </h1>
         </div>
 
