@@ -4,6 +4,7 @@ import { api } from "../convex/_generated/api";
 import { Id } from "../convex/_generated/dataModel";
 import { DeviceRole } from "./types/game";
 import { useGameSync } from "./hooks/useGameSync";
+import { Icon, Target, Rocket, Gamepad2, Link, ArrowRight, HelpCircle } from "./components/shared/Icon";
 
 // Keep screen awake during game session
 function useWakeLock(enabled: boolean) {
@@ -111,8 +112,8 @@ function App() {
         {showInstructions && <Instructions onClose={() => setShowInstructions(false)} />}
 
         <div className="text-center mb-10">
-          <h1 className="text-5xl font-bold text-gray-800 mb-2">
-            אילנס 🎯
+          <h1 className="text-5xl font-bold text-gray-800 mb-2 flex items-center justify-center gap-3">
+            אילנס <Icon icon={Target} size="xl" className="text-indigo-500" />
           </h1>
           <p className="text-gray-500 text-lg">משחק מילים מטורף!</p>
         </div>
@@ -120,9 +121,9 @@ function App() {
         <div className="w-full max-w-xs">
           <button
             onClick={() => setShowModeSelection(true)}
-            className="w-full doodle-card p-5 text-center text-2xl font-bold text-gray-800 hover:scale-105 transition-transform"
+            className="w-full doodle-card p-5 text-center text-2xl font-bold text-gray-800 hover:scale-105 transition-transform flex items-center justify-center gap-3"
           >
-            יאללה נתחיל! 🚀
+            יאללה נתחיל! <Icon icon={Rocket} size="lg" className="text-indigo-500" />
           </button>
         </div>
 
@@ -130,7 +131,7 @@ function App() {
           onClick={() => setShowInstructions(true)}
           className="mt-10 flex items-center gap-2 text-gray-500 hover:text-gray-700 transition-colors"
         >
-          <span className="text-xl">❓</span>
+          <Icon icon={HelpCircle} size="sm" />
           <span className="underline underline-offset-4">איך משחקים?</span>
         </button>
       </div>
@@ -144,8 +145,8 @@ function App() {
         {showInstructions && <Instructions onClose={() => setShowInstructions(false)} />}
 
         <div className="text-center mb-10">
-          <h1 className="text-5xl font-bold text-gray-800 mb-2">
-            אילנס 🎯
+          <h1 className="text-5xl font-bold text-gray-800 mb-2 flex items-center justify-center gap-3">
+            אילנס <Icon icon={Target} size="xl" className="text-indigo-500" />
           </h1>
         </div>
 
@@ -155,7 +156,7 @@ function App() {
             className="w-full doodle-card p-5 text-right"
           >
             <div className="flex items-center gap-4">
-              <span className="text-4xl">🎮</span>
+              <Icon icon={Gamepad2} size="xl" className="text-indigo-500" />
               <div>
                 <div className="text-xl font-bold text-gray-800">צור משחק חדש</div>
                 <div className="text-gray-500 text-sm">אני המארח</div>
@@ -168,7 +169,7 @@ function App() {
             className="w-full doodle-card p-5 text-right"
           >
             <div className="flex items-center gap-4">
-              <span className="text-4xl">🔗</span>
+              <Icon icon={Link} size="xl" className="text-indigo-500" />
               <div>
                 <div className="text-xl font-bold text-gray-800">הצטרף למשחק</div>
                 <div className="text-gray-500 text-sm">יש לי קוד</div>
@@ -181,7 +182,7 @@ function App() {
           onClick={() => setShowModeSelection(false)}
           className="mt-10 flex items-center gap-2 text-gray-500 hover:text-gray-700 transition-colors"
         >
-          <span className="text-xl">←</span>
+          <Icon icon={ArrowRight} size="sm" />
           <span className="underline underline-offset-4">חזרה</span>
         </button>
       </div>

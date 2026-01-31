@@ -3,6 +3,7 @@ import { useState } from "react";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
 import { Difficulty } from "../../types/game";
+import { Icon, Users, Timer, Target, Trophy, Rocket, X, HelpCircle, Check } from "../shared/Icon";
 
 interface SetupGameProps {
   gameId: Id<"games">;
@@ -82,7 +83,11 @@ export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructi
           <div className={`w-2 h-2 rounded-full ${
             timerDeviceJoined ? "bg-green-500" : "bg-amber-500 animate-pulse"
           }`} />
-          {timerDeviceJoined ? "טיימר מחובר ✓" : "ממתין לטיימר..."}
+          {timerDeviceJoined ? (
+            <span className="flex items-center gap-1">טיימר מחובר <Icon icon={Check} size="xs" /></span>
+          ) : (
+            "ממתין לטיימר..."
+          )}
         </div>
       </div>
 
@@ -90,7 +95,9 @@ export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructi
       <div className="doodle-card flex-1 p-4 overflow-y-auto">
         {/* Teams */}
         <div className="mb-5">
-          <h2 className="font-bold text-gray-800 mb-2">👥 קבוצות</h2>
+          <h2 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
+            <Icon icon={Users} size="sm" className="text-indigo-500" /> קבוצות
+          </h2>
           <div className="space-y-2">
             {teams.map((team, index) => (
               <div key={team.id} className="flex gap-2">
@@ -104,9 +111,9 @@ export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructi
                 {teams.length > 2 && (
                   <button
                     onClick={() => removeTeam(index)}
-                    className="px-4 doodle-btn bg-red-100 text-red-600"
+                    className="px-4 doodle-btn bg-red-100 text-red-600 flex items-center justify-center"
                   >
-                    ✕
+                    <Icon icon={X} size="sm" />
                   </button>
                 )}
               </div>
@@ -124,7 +131,9 @@ export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructi
 
         {/* Duration */}
         <div className="mb-5">
-          <h2 className="font-bold text-gray-800 mb-2">⏱️ משך סיבוב</h2>
+          <h2 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
+            <Icon icon={Timer} size="sm" className="text-indigo-500" /> משך סיבוב
+          </h2>
           <div className="flex gap-2">
             {[30, 45, 60, 90].map((duration) => (
               <button
@@ -144,7 +153,9 @@ export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructi
 
         {/* Difficulty */}
         <div className="mb-5">
-          <h2 className="font-bold text-gray-800 mb-2">🎯 רמת קושי</h2>
+          <h2 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
+            <Icon icon={Target} size="sm" className="text-indigo-500" /> רמת קושי
+          </h2>
           <div className="flex gap-2">
             {[
               { value: "easy" as Difficulty, label: "קל", emoji: "😊" },
@@ -168,7 +179,9 @@ export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructi
 
         {/* Target Score */}
         <div>
-          <h2 className="font-bold text-gray-800 mb-2">🏆 נקודות לניצחון</h2>
+          <h2 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
+            <Icon icon={Trophy} size="sm" className="text-amber-500" /> נקודות לניצחון
+          </h2>
           <div className="flex gap-2">
             {[30, 50, 75, 100].map((score) => (
               <button
@@ -192,15 +205,19 @@ export function SetupGame({ gameId, roomCode, timerDeviceJoined, onShowInstructi
         <button
           onClick={handleSubmit}
           disabled={isSubmitting || !timerDeviceJoined}
-          className="w-full doodle-btn bg-green-500 text-white py-4 text-xl"
+          className="w-full doodle-btn bg-green-500 text-white py-4 text-xl flex items-center justify-center gap-2"
         >
-          {isSubmitting ? "מתחיל..." : !timerDeviceJoined ? "ממתין לטיימר..." : "🚀 התחל משחק!"}
+          {isSubmitting ? "מתחיל..." : !timerDeviceJoined ? "ממתין לטיימר..." : (
+            <>
+              <Icon icon={Rocket} size="md" /> התחל משחק!
+            </>
+          )}
         </button>
         <button
           onClick={onShowInstructions}
-          className="w-full py-2 text-gray-500 text-sm hover:text-gray-700"
+          className="w-full py-2 text-gray-500 text-sm hover:text-gray-700 flex items-center justify-center gap-1"
         >
-          ❓ איך משחקים?
+          <Icon icon={HelpCircle} size="xs" /> איך משחקים?
         </button>
       </div>
     </div>

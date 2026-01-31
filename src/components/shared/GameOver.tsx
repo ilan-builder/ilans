@@ -1,4 +1,5 @@
 import { Team } from "../../types/game";
+import { Icon, Trophy, RotateCcw, MedalIcon } from "./Icon";
 
 interface GameOverProps {
   teams: Team[];
@@ -13,7 +14,9 @@ export function GameOver({ teams, onPlayAgain, onNewGame }: GameOverProps) {
   return (
     <div className="mobile-screen flex flex-col items-center justify-center p-6 pt-safe-button bg-amber-50">
       <div className="doodle-card p-6 max-w-sm w-full text-center bg-white">
-        <div className="text-6xl mb-4">🏆</div>
+        <div className="text-6xl mb-4 flex justify-center">
+          <Icon icon={Trophy} size="2xl" className="text-amber-500" />
+        </div>
         <h1 className="text-3xl font-bold text-gray-800 mb-2">המשחק נגמר!</h1>
         <h2 className="text-2xl font-bold text-indigo-600 mb-1">{winner.name}</h2>
         <p className="text-gray-600 mb-6">ניצחו עם {winner.score} נקודות!</p>
@@ -34,7 +37,15 @@ export function GameOver({ teams, onPlayAgain, onNewGame }: GameOverProps) {
             >
               <div className="flex items-center gap-2">
                 <span className="text-xl">
-                  {index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `${index + 1}.`}
+                  {index === 0 ? (
+                    <MedalIcon position={1} size="md" />
+                  ) : index === 1 ? (
+                    <MedalIcon position={2} size="md" />
+                  ) : index === 2 ? (
+                    <MedalIcon position={3} size="md" />
+                  ) : (
+                    `${index + 1}.`
+                  )}
                 </span>
                 <span className="font-bold text-gray-800">{team.name}</span>
               </div>
@@ -46,9 +57,9 @@ export function GameOver({ teams, onPlayAgain, onNewGame }: GameOverProps) {
         <div className="space-y-2">
           <button
             onClick={onPlayAgain}
-            className="w-full doodle-btn bg-indigo-500 text-white py-4 text-lg"
+            className="w-full doodle-btn bg-indigo-500 text-white py-4 text-lg flex items-center justify-center gap-2"
           >
-            🔄 משחק נוסף
+            <Icon icon={RotateCcw} size="sm" /> משחק נוסף
           </button>
           <button
             onClick={onNewGame}

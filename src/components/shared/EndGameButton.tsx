@@ -1,3 +1,5 @@
+import { Icon, X } from "./Icon";
+
 interface EndGameButtonProps {
   onEndGame: () => void;
 }
@@ -13,7 +15,7 @@ export function EndGameButton({ onEndGame }: EndGameButtonProps) {
       }}
       title="סיים משחק"
     >
-      ✕
+      <Icon icon={X} size="sm" />
     </button>
   );
 }

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Game } from "../../types/game";
 import { ScoreBoard } from "../shared/ScoreBoard";
+import { Icon, AlarmClock, Zap } from "../shared/Icon";
 
 interface StealAlertProps {
   game: Game;
@@ -35,8 +36,8 @@ export function StealAlert({ game }: StealAlertProps) {
     <div className="mobile-screen flex flex-col p-4 pt-safe-button bg-amber-50">
       {/* Header */}
       <div className="text-center py-4">
-        <div className="text-5xl font-bold text-amber-600 animate-wiggle">
-          ⏰ נגמר הזמן!
+        <div className="text-5xl font-bold text-amber-600 animate-wiggle flex items-center justify-center gap-3">
+          <Icon icon={AlarmClock} size="xl" className="text-amber-500" /> נגמר הזמן!
         </div>
         <p className="text-xl text-amber-700 mt-2">
           הזמן של {currentTeam.name} נגמר
@@ -51,7 +52,9 @@ export function StealAlert({ game }: StealAlertProps) {
 
       {/* Steal indicator */}
       <div className="flex-1 flex flex-col items-center justify-center">
-        <div className="text-6xl mb-3 animate-bounce-soft">⚡</div>
+        <div className="text-6xl mb-3 animate-bounce-soft flex justify-center">
+          <Icon icon={Zap} size="2xl" className="text-amber-500" />
+        </div>
         <div className="text-4xl font-bold text-amber-600 mb-3">
           גניבה!
         </div>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { Game } from "../../types/game";
+import { Icon, Zap, Check, PartyPopper } from "../shared/Icon";
 
 interface StealModeProps {
   game: Game;
@@ -31,8 +32,8 @@ export function StealMode({ game }: StealModeProps) {
     <div className="mobile-screen flex flex-col p-4 pt-16 bg-amber-50">
       {/* Header */}
       <div className="text-center py-4">
-        <div className="text-4xl font-bold text-amber-600 animate-wiggle mb-1">
-          ⚡ גניבה!
+        <div className="text-4xl font-bold text-amber-600 animate-wiggle mb-1 flex items-center justify-center gap-2">
+          <Icon icon={Zap} size="xl" className="text-amber-500" /> גניבה!
         </div>
         <p className="text-amber-700">
           הזמן של {currentTeam.name} נגמר
@@ -58,11 +59,19 @@ export function StealMode({ game }: StealModeProps) {
                 key={team.id}
                 onClick={() => handleScore(team.id)}
                 disabled={isProcessing}
-                className={`w-full doodle-btn text-white py-4 text-lg ${
+                className={`w-full doodle-btn text-white py-4 text-lg flex items-center justify-center gap-2 ${
                   isCurrentTeam ? "bg-blue-500" : "bg-green-500"
                 }`}
               >
-                {isCurrentTeam ? `✓ ${team.name} ניחשו!` : `🎉 ${team.name} גנב!`}
+                {isCurrentTeam ? (
+                  <>
+                    <Icon icon={Check} size="sm" /> {team.name} ניחשו!
+                  </>
+                ) : (
+                  <>
+                    <Icon icon={PartyPopper} size="sm" /> {team.name} גנב!
+                  </>
+                )}
               </button>
             );
           })}

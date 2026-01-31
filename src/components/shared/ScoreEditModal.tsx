@@ -2,6 +2,7 @@ import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { Team } from "../../types/game";
 import { Id } from "../../../convex/_generated/dataModel";
+import { Icon, X } from "./Icon";
 
 interface ScoreEditModalProps {
   gameId: Id<"games">;
@@ -30,7 +31,7 @@ export function ScoreEditModal({ gameId, teams, onClose }: ScoreEditModalProps) 
             onClick={onClose}
             className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-gray-600 font-bold text-xl"
           >
-            ✕
+            <Icon icon={X} size="md" />
           </button>
         </div>
 

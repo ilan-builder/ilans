@@ -5,6 +5,7 @@ import { Game } from "../../types/game";
 import { getRandomWord } from "../../data/hebrewWords";
 import { ScoreBoard } from "../shared/ScoreBoard";
 import { ScoreEditModal } from "../shared/ScoreEditModal";
+import { Icon, Mic, Rocket } from "../shared/Icon";
 
 interface TurnTransitionProps {
   game: Game;
@@ -44,7 +45,9 @@ export function TurnTransition({ game }: TurnTransitionProps) {
         <div className="text-4xl font-bold text-indigo-600 mb-4">
           {currentTeam.name}
         </div>
-        <div className="text-6xl animate-bounce-soft mb-4">🎤</div>
+        <div className="text-6xl animate-bounce-soft mb-4 flex justify-center">
+          <Icon icon={Mic} size="2xl" className="text-indigo-500" />
+        </div>
         <p className="text-gray-500 text-sm text-center px-4">
           העבירו את המכשיר למסביר של הקבוצה
         </p>
@@ -61,9 +64,9 @@ export function TurnTransition({ game }: TurnTransitionProps) {
         <button
           onClick={handleReady}
           disabled={isProcessing}
-          className="w-full doodle-btn bg-indigo-500 text-white py-5 text-xl"
+          className="w-full doodle-btn bg-indigo-500 text-white py-5 text-xl flex items-center justify-center gap-2"
         >
-          🚀 מוכנים? יאללה!
+          <Icon icon={Rocket} size="md" /> מוכנים? יאללה!
         </button>
       </div>
 

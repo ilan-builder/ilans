@@ -1,3 +1,5 @@
+import { Icon, Target, Smartphone, X, Check, Zap, Rocket } from "./Icon";
+
 interface InstructionsProps {
   onClose: () => void;
 }
@@ -7,19 +9,25 @@ export function Instructions({ onClose }: InstructionsProps) {
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
       <div className="doodle-card bg-white max-w-sm w-full max-h-[85vh] overflow-y-auto p-5">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-gray-800">איך משחקים? 🎯</h2>
+          <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+            איך משחקים? <Icon icon={Target} size="md" className="text-indigo-500" />
+          </h2>
           <button
             onClick={onClose}
             className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 border-2 border-gray-300"
           >
-            ✕
+            <Icon icon={X} size="sm" />
           </button>
         </div>
 
         <div className="space-y-4 text-gray-700">
           {/* Two devices explanation */}
           <div className="bg-indigo-50 rounded-xl p-4 border-2 border-indigo-200">
-            <h3 className="font-bold text-indigo-700 mb-2">📱📱 שני מכשירים</h3>
+            <h3 className="font-bold text-indigo-700 mb-2 flex items-center gap-2">
+              <Icon icon={Smartphone} size="sm" className="text-indigo-600" />
+              <Icon icon={Smartphone} size="sm" className="text-indigo-600" />
+              שני מכשירים
+            </h3>
             <p className="text-sm leading-relaxed">
               <strong>מכשיר מסביר</strong> - מציג מילים למסביר בלבד
               <br />
@@ -52,19 +60,25 @@ export function Instructions({ onClose }: InstructionsProps) {
             </div>
 
             <div className="flex gap-3 items-start">
-              <span className="w-6 h-6 rounded-full bg-green-500 text-white flex items-center justify-center text-sm flex-shrink-0 font-bold border-2 border-green-600">✓</span>
-              <p className="text-sm"><strong>ניחשו נכון?</strong> לחצו ✓ ותקבלו נקודה</p>
+              <span className="w-6 h-6 rounded-full bg-green-500 text-white flex items-center justify-center text-sm flex-shrink-0 font-bold border-2 border-green-600">
+                <Icon icon={Check} size="xs" />
+              </span>
+              <p className="text-sm"><strong>ניחשו נכון?</strong> לחצו <Icon icon={Check} size="xs" className="inline text-green-600" /> ותקבלו נקודה</p>
             </div>
 
             <div className="flex gap-3 items-start">
-              <span className="w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-sm flex-shrink-0 font-bold border-2 border-red-600">✕</span>
-              <p className="text-sm"><strong>דילגתם?</strong> לחצו ✕ ותפסידו נקודה</p>
+              <span className="w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center text-sm flex-shrink-0 font-bold border-2 border-red-600">
+                <Icon icon={X} size="xs" />
+              </span>
+              <p className="text-sm"><strong>דילגתם?</strong> לחצו <Icon icon={X} size="xs" className="inline text-red-600" /> ותפסידו נקודה</p>
             </div>
           </div>
 
           {/* Steal mode */}
           <div className="bg-amber-50 rounded-xl p-4 border-2 border-amber-200">
-            <h3 className="font-bold text-amber-700 mb-2">⚡ גניבה!</h3>
+            <h3 className="font-bold text-amber-700 mb-2 flex items-center gap-2">
+              <Icon icon={Zap} size="sm" className="text-amber-600" /> גניבה!
+            </h3>
             <p className="text-sm leading-relaxed">
               כשנגמר הזמן, קבוצות אחרות יכולות לנחש את המילה האחרונה ולגנוב נקודה!
             </p>
@@ -73,9 +87,9 @@ export function Instructions({ onClose }: InstructionsProps) {
 
         <button
           onClick={onClose}
-          className="w-full mt-5 doodle-btn bg-indigo-500 text-white py-3"
+          className="w-full mt-5 doodle-btn bg-indigo-500 text-white py-3 flex items-center justify-center gap-2"
         >
-          הבנתי, בואו נשחק! 🚀
+          הבנתי, בואו נשחק! <Icon icon={Rocket} size="sm" />
         </button>
       </div>
     </div>

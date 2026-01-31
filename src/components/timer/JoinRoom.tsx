@@ -2,6 +2,7 @@ import { useMutation } from "convex/react";
 import { useState } from "react";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
+import { Icon, Timer, Loader2, Link, HelpCircle } from "../shared/Icon";
 
 interface JoinRoomProps {
   onJoined: (gameId: Id<"games">, roomCode: string) => void;
@@ -41,7 +42,9 @@ export function JoinRoom({ onJoined, onShowInstructions }: JoinRoomProps) {
   return (
     <div className="mobile-screen flex flex-col items-center justify-center p-6 bg-white">
       <div className="text-center mb-10">
-        <span className="text-7xl mb-4 block animate-bounce-soft">⏱️</span>
+        <span className="text-7xl mb-4 block animate-bounce-soft flex justify-center">
+          <Icon icon={Timer} size="3xl" className="text-indigo-500" />
+        </span>
         <h1 className="text-3xl font-bold text-gray-800">
           מכשיר טיימר
         </h1>
@@ -72,10 +75,12 @@ export function JoinRoom({ onJoined, onShowInstructions }: JoinRoomProps) {
         >
           {isJoining ? (
             <span className="flex items-center justify-center gap-2">
-              <span className="animate-spin">⏳</span> מתחבר...
+              <Icon icon={Loader2} size="md" className="animate-spin" /> מתחבר...
             </span>
           ) : (
-            <span>🔗 הצטרף למשחק</span>
+            <span className="flex items-center justify-center gap-2">
+              <Icon icon={Link} size="md" /> הצטרף למשחק
+            </span>
           )}
         </button>
       </div>
@@ -84,7 +89,7 @@ export function JoinRoom({ onJoined, onShowInstructions }: JoinRoomProps) {
         onClick={onShowInstructions}
         className="mt-10 flex items-center gap-2 text-gray-500 hover:text-gray-700 transition-colors"
       >
-        <span className="text-xl">❓</span>
+        <Icon icon={HelpCircle} size="sm" />
         <span className="underline underline-offset-4">איך משחקים?</span>
       </button>
     </div>

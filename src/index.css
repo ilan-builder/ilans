@@ -149,3 +149,15 @@ html[dir="rtl"] {
 .overflow-y-auto {
   -webkit-overflow-scrolling: touch;
 }
+
+/* Doodle icon style - hand-drawn aesthetic */
+.doodle-icon {
+  /* Slight random-feeling rotation for hand-drawn effect */
+  transform: rotate(-1deg);
+}
+
+/* Remove rotation for spinning icons */
+.animate-spin .doodle-icon,
+.doodle-icon.animate-spin {
+  transform: none;
+}

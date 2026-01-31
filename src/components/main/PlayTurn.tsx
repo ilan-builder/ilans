@@ -4,6 +4,7 @@ import { api } from "../../../convex/_generated/api";
 import { Game } from "../../types/game";
 import { getRandomWord } from "../../data/hebrewWords";
 import { ScoreBoard } from "../shared/ScoreBoard";
+import { Icon, X, Check } from "../shared/Icon";
 
 interface PlayTurnProps {
   game: Game;
@@ -112,16 +113,16 @@ export function PlayTurn({ game }: PlayTurnProps) {
           <button
             onClick={handleSkip}
             disabled={isProcessing}
-            className="flex-1 doodle-btn bg-red-500 text-white py-5 text-xl"
+            className="flex-1 doodle-btn bg-red-500 text-white py-5 text-xl flex items-center justify-center gap-2"
           >
-            ✕ דילוג
+            <Icon icon={X} size="md" /> דילוג
           </button>
           <button
             onClick={handleCorrect}
             disabled={isProcessing}
-            className="flex-1 doodle-btn bg-green-500 text-white py-5 text-xl"
+            className="flex-1 doodle-btn bg-green-500 text-white py-5 text-xl flex items-center justify-center gap-2"
           >
-            ✓ נכון!
+            <Icon icon={Check} size="md" /> נכון!
           </button>
         </div>
         <button
