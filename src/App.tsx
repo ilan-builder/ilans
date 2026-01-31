@@ -60,6 +60,7 @@ function App() {
   const [gameId, setGameId] = useState<Id<"games"> | null>(null);
   const [roomCode, setRoomCode] = useState<string>("");
   const [showInstructions, setShowInstructions] = useState(false);
+  const [showModeSelection, setShowModeSelection] = useState(false);
 
   const game = useGameSync(gameId);
   const resetGame = useMutation(api.games.resetGame);
@@ -103,8 +104,8 @@ function App() {
     }
   };
 
-  // Role selection screen - no end button needed here
-  if (!deviceRole) {
+  // Welcome screen - single "Start" button
+  if (!deviceRole && !showModeSelection) {
     return (
       <div className="mobile-screen flex flex-col items-center justify-center p-6 bg-white">
         {showInstructions && <Instructions onClose={() => setShowInstructions(false)} />}
@@ -116,31 +117,12 @@ function App() {
           <p className="text-gray-500 text-lg">משחק מילים מטורף!</p>
         </div>
 
-        <div className="w-full max-w-xs space-y-4">
+        <div className="w-full max-w-xs">
           <button
-            onClick={() => setDeviceRole("main")}
-            className="w-full doodle-card p-5 text-right"
+            onClick={() => setShowModeSelection(true)}
+            className="w-full doodle-card p-5 text-center text-2xl font-bold text-gray-800 hover:scale-105 transition-transform"
           >
-            <div className="flex items-center gap-4">
-              <span className="text-4xl">🎤</span>
-              <div>
-                <div className="text-xl font-bold text-gray-800">מכשיר מסביר</div>
-                <div className="text-gray-500 text-sm">מציג מילים, שולט במשחק</div>
-              </div>
-            </div>
-          </button>
-
-          <button
-            onClick={() => setDeviceRole("timer")}
-            className="w-full doodle-card p-5 text-right"
-          >
-            <div className="flex items-center gap-4">
-              <span className="text-4xl">⏱️</span>
-              <div>
-                <div className="text-xl font-bold text-gray-800">מכשיר טיימר</div>
-                <div className="text-gray-500 text-sm">מציג זמן וניקוד לכולם</div>
-              </div>
-            </div>
+            יאללה נתחיל! 🚀
           </button>
         </div>
 
@@ -150,6 +132,57 @@ function App() {
         >
           <span className="text-xl">❓</span>
           <span className="underline underline-offset-4">איך משחקים?</span>
+        </button>
+      </div>
+    );
+  }
+
+  // Mode selection screen - Create or Join
+  if (!deviceRole && showModeSelection) {
+    return (
+      <div className="mobile-screen flex flex-col items-center justify-center p-6 bg-white">
+        {showInstructions && <Instructions onClose={() => setShowInstructions(false)} />}
+
+        <div className="text-center mb-10">
+          <h1 className="text-5xl font-bold text-gray-800 mb-2">
+            אילנס 🎯
+          </h1>
+        </div>
+
+        <div className="w-full max-w-xs space-y-4">
+          <button
+            onClick={() => setDeviceRole("main")}
+            className="w-full doodle-card p-5 text-right"
+          >
+            <div className="flex items-center gap-4">
+              <span className="text-4xl">🎮</span>
+              <div>
+                <div className="text-xl font-bold text-gray-800">צור משחק חדש</div>
+                <div className="text-gray-500 text-sm">אני המארח</div>
+              </div>
+            </div>
+          </button>
+
+          <button
+            onClick={() => setDeviceRole("timer")}
+            className="w-full doodle-card p-5 text-right"
+          >
+            <div className="flex items-center gap-4">
+              <span className="text-4xl">🔗</span>
+              <div>
+                <div className="text-xl font-bold text-gray-800">הצטרף למשחק</div>
+                <div className="text-gray-500 text-sm">יש לי קוד</div>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <button
+          onClick={() => setShowModeSelection(false)}
+          className="mt-10 flex items-center gap-2 text-gray-500 hover:text-gray-700 transition-colors"
+        >
+          <span className="text-xl">←</span>
+          <span className="underline underline-offset-4">חזרה</span>
         </button>
       </div>
     );
